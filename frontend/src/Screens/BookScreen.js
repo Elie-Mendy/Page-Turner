@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
 import Product from '../Components/Product'
 import Loader from '../Components/Loader'
 import Message from '../Components/Message'
 
-import { listProducts } from '../actions/productActions'
+import { listBooks } from '../actions/bookActions'
 
 function HomeScreen() {
 
@@ -13,9 +13,9 @@ function HomeScreen() {
 	const productList = useSelector(state => state.productList);
 	const {error, loading, products} = productList;
 	useEffect(() => {
-		dispatch(listProducts())
+		dispatch(listBooks())
 	}, [dispatch])
-
+    
 	return (
 		<div>
 			<h1>Latest Products</h1>

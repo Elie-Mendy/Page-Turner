@@ -1,0 +1,5 @@
+export const API_KEY = "AIzaSyCL1VrdcS11rkJkbvOioRKWrG9TJaCoZGg"
+export const API_BOOKS_URL = "www.googleapis.com/books/v1"
+export const BOOK_LIST_REQUEST = "BOOK_LIST_REQUEST"
+export const BOOK_LIST_SUCCESS = "BOOK_LIST_SUCCESS"
+export const BOOK_LIST_FAIL = "BOOK_LIST_FAIL"
