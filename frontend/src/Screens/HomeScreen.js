@@ -7,18 +7,47 @@ import Message from '../Components/Message'
 
 import { listBooks } from '../actions/bookActions'
 
+
+
+
+import FloSearchBar from '../Components/FloSearchBar';
+
+
+
 function HomeScreen() {
+
+  // flo recherche livre
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleInputChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Faites quelque chose avec la valeur de recherche
+		// changer la requete dans BookAction
+		dispatch(listBooks(searchValue))
+  };
 
 	const dispatch = useDispatch()
 	const bookList = useSelector(state => state.bookList);
 	const { loading, error, books } = bookList;
 
 	useEffect(() => {
-		dispatch(listBooks())
+		dispatch(listBooks(searchValue))
 	}, [dispatch])
+
+
 	return (
 		<div>
 			<h1>Latest Books</h1>
+			<p>{ searchValue }</p>
+			<FloSearchBar
+				searchValue={searchValue}
+				handleInputChange={handleInputChange}
+				handleSubmit={handleSubmit}
+      />
 			{ loading && <Loader/>}
 			{ error && <Message variant='danger'>{error}</Message>}
 			
@@ -31,8 +60,7 @@ function HomeScreen() {
 					))} 
 				</Row>
 				) 
-			}
-				
+			}		
 		</div>
 	)
 }
