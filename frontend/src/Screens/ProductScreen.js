@@ -2,7 +2,6 @@ import React , { useState, useEffect } from 'react'
 import { Link , useParams , useNavigate } from "react-router-dom"
 import { Row, Col, Image, ListGroup, Button, Card, Form } from 'react-bootstrap'
 import Rating from '../Components/Rating'
-import axios from 'axios'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { listProductsDetails } from '../actions/productActions'

@@ -5,7 +5,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { productListReducer, productDetailReducer } from "./reducers/productReducers";
 import { cartReducer } from "./reducers/cartReducers";
 import { userLoginReducer , userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from "./reducers/userReducer"
-import { bookListReducer } from "./reducers/bookReducers";
+import { bookListReducer, bookDetailReducer , bookCoverReducer } from "./reducers/bookReducers";
 
 
 const reducer = combineReducers({
@@ -17,6 +17,8 @@ const reducer = combineReducers({
     userDetails: userDetailsReducer,
     userUpdateProfile: userUpdateProfileReducer,
     bookList: bookListReducer,
+    bookDetail: bookDetailReducer,
+    bookCover: bookCoverReducer,
 });
 
 // Fetch data from the localStorage

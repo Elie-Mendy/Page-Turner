@@ -21,7 +21,7 @@ function Header() {
     <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
       <Container>
         <LinkContainer to="/">
-          <Navbar.Brand>ProShop</Navbar.Brand>
+          <Navbar.Brand>Page Turner</Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
@@ -30,9 +30,9 @@ function Header() {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <LinkContainer to="/cart">
+            {/* <LinkContainer to="/cart">
               <Nav.Link><i className="fas fa-shopping-cart" /> Cart</Nav.Link>
-            </LinkContainer>
+            </LinkContainer> */}
             { userInfo ? (
               <NavDropdown title={userInfo.name} id='username'>
                 <LinkContainer to='/profile'>

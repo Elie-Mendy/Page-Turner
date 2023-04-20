@@ -1,35 +1,38 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
-import Product from '../Components/Product'
+import Book from '../Components/Book'
 import Loader from '../Components/Loader'
 import Message from '../Components/Message'
 
-import { listProducts } from '../actions/productActions'
+import { listBooks } from '../actions/bookActions'
 
 function HomeScreen() {
 
 	const dispatch = useDispatch()
-	const productList = useSelector(state => state.productList);
-	const {error, loading, products} = productList;
-	useEffect(() => {
-		dispatch(listProducts())
-	}, [dispatch])
+	const bookList = useSelector(state => state.bookList);
+	const { loading, error, books } = bookList;
 
+	useEffect(() => {
+		dispatch(listBooks())
+	}, [dispatch])
 	return (
 		<div>
-			<h1>Latest Products</h1>
-			{loading ? <Loader/>
-				: error ? <Message variant='danger'>{error}</Message>
-					:
-					<Row>
-						{products.map(product => (
-							<Col key={product._id} sm={12} md={6} lg={4}>
-								<Product product={product} />
-							</Col>
-						))}
-					</Row>
+			<h1>Latest Books</h1>
+			{ loading && <Loader/>}
+			{ error && <Message variant='danger'>{error}</Message>}
+			
+			{ books && books.items && (
+				<Row>
+					{ books.items.map(book => ( 
+						<Col key={book.id} sm={12} md={6} lg={3}>
+							<Book book={book} />
+						</Col>
+					))} 
+				</Row>
+				) 
 			}
+				
 		</div>
 	)
 }

@@ -4,11 +4,11 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import HomeScreen from "./Screens/HomeScreen";
 import ProductScreen from "./Screens/ProductScreen";
+import BookScreen from "./Screens/BookScreen";
 import CartScreen from "./Screens/CartScreen";
 import LoginScreen from "./Screens/LoginScreen";
 import RegisterScreen from "./Screens/RegisterScreen";
 import ProfileScreen from "./Screens/ProfileScreen";
-import BookScreen from "./Screens/BookScreen";
 
  
 function App() {
@@ -23,6 +23,7 @@ function App() {
             <Route path="/register" element={<RegisterScreen />} exact/>
             <Route path="/profile" element={<ProfileScreen />} exact/>
             <Route path="/products/:id" element={<ProductScreen />} />
+            <Route path="/books/:isbn" element={<BookScreen />} />
             <Route path="/cart/" element={<CartScreen />} />
             <Route path="/cart/:id" element={<CartScreen />} />
           </Routes>
