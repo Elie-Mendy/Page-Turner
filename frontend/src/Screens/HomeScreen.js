@@ -4,13 +4,14 @@ import { Row, Col } from 'react-bootstrap'
 import Book from '../Components/Book'
 import Loader from '../Components/Loader'
 import Message from '../Components/Message'
+import HomepageDropdown from '../Components/HomepageDropdown'
 
 import { listBooks } from '../actions/bookActions'
 
 
 
 
-import FloSearchBar from '../Components/FloSearchBar';
+import SearchBar from '../Components/SearchBar';
 
 
 
@@ -36,17 +37,23 @@ function HomeScreen() {
 
 	useEffect(() => {
 		dispatch(listBooks(searchValue))
-	}, [dispatch])
-
+	}, [dispatch, searchValue])
 
 	return (
 		<div>
-			<h1>Latest Books</h1>
-			<FloSearchBar
-				searchValue={searchValue}
-				handleInputChange={handleInputChange}
-				handleSubmit={handleSubmit}
-      />
+			<Row>
+				<Col>
+					<HomepageDropdown/>
+				</Col>
+
+				<Col>
+					<SearchBar
+						searchValue={searchValue}
+						handleInputChange={handleInputChange}
+						handleSubmit={handleSubmit}
+					/>
+				</Col>
+			</Row>
 			{ loading && <Loader/>}
 			{ error && <Message variant='danger'>{error}</Message>}
 			
@@ -58,8 +65,9 @@ function HomeScreen() {
 						</Col>
 					))} 
 				</Row>
-				) 
-			}		
+				)
+			}
+			
 		</div>
 	)
 }

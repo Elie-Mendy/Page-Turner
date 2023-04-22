@@ -1,25 +1,18 @@
-import React, { useState } from 'react';
-import { Form } from 'react-bootstrap';
+import React from "react";
+import { Form, FormControl } from "react-bootstrap";
 
-function SearchBar({ onSearch }) {
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleInputChange = (event) => {
-    const value = event.target.value;
-    setSearchTerm(value);
-    onSearch(value);
-  };
-
+function SearchBar(props) {
   return (
-    <Form>
-      <Form.Group>
-        <Form.Control
+    <Form onSubmit={props.handleSubmit} className="row className= homepage-searchbar">
+      <div>
+        <FormControl
           type="text"
           placeholder="Rechercher..."
-          value={searchTerm}
-          onChange={handleInputChange}
+          className="mr-sm-2 "
+          value={props.searchValue}
+          onChange={props.handleInputChange}
         />
-      </Form.Group>
+      </div>
     </Form>
   );
 }

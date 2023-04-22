@@ -17,7 +17,8 @@ function BookScreen() {
     const dispatch = useDispatch()
 
     const [qty , setQty] = useState(1);
-    const img = `https://covers.openlibrary.org/b/isbn/${match.isbn}-M.jpg`
+    //const img = `https://covers.openlibrary.org/b/isbn/${match.isbn}-M.jpg`
+    const img = `http://images.amazon.com/images/P/${match.isbn}.01.LZZZZZZZ.jpg`
 
     const bookDetail = useSelector(state => state.bookDetail)
     const {error, loading, book} = bookDetail
@@ -41,7 +42,10 @@ function BookScreen() {
 					<Row>
                         <Col md={4}>
                             <Image 
-                                src={
+                                
+                            />
+                            <Card className="my-3 p-3 ">
+                                <Card.Img src={
                                     isCover ? img 
                                     : book 
                                     && book.volumeInfo
@@ -49,8 +53,8 @@ function BookScreen() {
                                     && book.volumeInfo.imageLinks.thumbnail
                                 } 
                                 alt={book.name} 
-                                fluid 
-                            />
+                                fluid  />
+                            </Card>
                         </Col>
                         <Col md={8}>
                             <ListGroup variant="flush">

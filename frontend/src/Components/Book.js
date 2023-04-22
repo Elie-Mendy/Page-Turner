@@ -33,7 +33,7 @@ function Book({book}) {
 	}, [dispatch])
 
     return (
-        <Card className="my-3 p-3 rounded">
+        <Card className="my-3 p-3">
             <Link to={`/books/${isbn}`}>
                 <Card.Img src={isCover ? img : googleCover}/>
             </Link>

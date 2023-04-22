@@ -44,7 +44,6 @@ export const listBooksDetails = (isbn) => async (dispatch) => {
         const request = `${API_BOOKS_URL}/volumes?q=isbn:${isbn}&maxResults=40`;
 
         const { data } = await axios.get(request)
-        console.log(data)
         dispatch({
             type: BOOK_DETAIL_SUCCESS,
             payload: data.items[0]
@@ -65,8 +64,16 @@ export const listBooksDetails = (isbn) => async (dispatch) => {
 
 export const getCoverFromIsbn = (isbn) => async (dispatch) => {
     try {
-        await axios.get(`https://covers.openlibrary.org/b/id/${isbn}-M.jpg?default=false`)
-        dispatch({ type: BOOK_COVER_SUCCESS })
+        //await axios.get(`https://covers.openlibrary.org/b/id/${isbn}-M.jpg?default=false`)
+        let img = new Image();
+        img = await axios.get (`http://images.amazon.com/images/P/${isbn}.01.LZZZZZZZ.jpg`)
+       
+        if (img.data !== "GIF89a\u0001\u0000\u0001\u0000�\u0001\u0000\u0000\u0000\u0000���!�\u0004\u0001\u0000\u0000\u0001\u0000,\u0000\u0000\u0000\u0000\u0001\u0000\u0001\u0000\u0000\u0002\u0002L\u0001\u0000;") {
+            dispatch({ type: BOOK_COVER_SUCCESS })
+        } else {
+            dispatch({ type: BOOK_COVER_FAIL })
+        }
+        
 
     } catch (error) {
         dispatch({ type: BOOK_COVER_FAIL })

@@ -4,6 +4,10 @@ import { Form, Row, Col, Button, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Components/Loader";
 import Message from "../Components/Message";
+import ProfileBanner from '../Components/ProfileBanner';
+import ProfilMenu from '../Components/ProfilMenu';
+import ProfilAbout from '../Components/ProfilAbout'
+import ProfilPost from '../Components/ProfilPost'
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 
@@ -56,57 +60,24 @@ function ProfileScreen() {
     };
 
     return (
-        <Row>
-            <div>
-                Thème
-                <Row>
-                    <Col md={1}>Image</Col>
-                    <Col md={1}>Nom</Col>
-                </Row>
-            </div>
-            <hr></hr>
-            <Col md={4}>
-                <h2>Profile</h2>
-                <Row>
-                    <h6>Lecture(s) en cours</h6>
-                </Row>
-                <br></br>
-                <Row>
-                    <Col md={4}><h6>Friends</h6></Col>
-                    <Col md={4}><h6>Followers</h6></Col>
-                    <Col md={4}><h6>Following</h6></Col>
-                </Row>
-                <br></br>
-                <br></br>
-                <div>
-                    <h4>A propos</h4>
-                    <Row>Description</Row>
-                    <Row>Habite à / Pays</Row>
-                </div>
-                <br></br>
-                <br></br>
-                <div>
-                    <h4>Social</h4>
-                    <Row>Blog</Row>
-                    <Row>Facebook</Row>
-                    <Row>Instagram</Row>
-                    <Row>Tiktok</Row>
-                </div>
-            </Col>
-            <Col md={8}>
-                <h2>Fil</h2>
-                <div>
-                    <Row><h4>Créer Post</h4></Row>
-                </div>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <div>
-                    <Row><h4>Anciens Posts</h4></Row>
-                </div>
-            </Col>
-        </Row>
+        <>
+            <ProfileBanner/>
+            <ProfilMenu/>
+            <Row>
+                <Col md={3}>
+                    <ProfilAbout/>
+                </Col>
+                <Col md={9}>
+                    <ProfilPost/>
+                    <ProfilPost/>
+                    <ProfilPost/>
+                    <ProfilPost/>
+                    <ProfilPost/>
+                    <ProfilPost/>
+                </Col>
+            </Row>
+            
+        </>
     );
 }
 
