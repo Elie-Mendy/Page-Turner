@@ -42,7 +42,6 @@ function HomeScreen() {
 	return (
 		<div>
 			<h1>Latest Books</h1>
-			<p>{ searchValue }</p>
 			<FloSearchBar
 				searchValue={searchValue}
 				handleInputChange={handleInputChange}

@@ -17,11 +17,11 @@ import {
 
 // redux-thunk allows us to return async function instead of regular actions
 export const listBooks = (query=null) => async (dispatch, isbn) => {
-    console.log(query)
     try {
         dispatch({ type: BOOK_LIST_REQUEST });
-        //const request = `${API_BOOKS_URL}/volumes?q=chasseuse alchimiste&orderBy=newest&key=${API_KEY}&maxResults=40`;
-        const request = query ? `${API_BOOKS_URL}/volumes?q=intitle:${query}&orderBy=newest&maxResults=40` : `${API_BOOKS_URL}/volumes?q=blockchain&orderBy=newest&maxResults=40`; 
+        const request = query ? 
+            `${API_BOOKS_URL}/volumes?q=intitle:${query}&orderBy=newest&caseInsensitive=true&maxResults=40` : 
+            `${API_BOOKS_URL}/volumes?q=subject:fantasy&orderBy=newest&caseInsensitive=true&maxResults=40`; 
         const { data } = await axios.get(request)
         
         dispatch({

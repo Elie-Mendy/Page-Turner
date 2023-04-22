@@ -40,6 +40,9 @@ function Header() {
                 <LinkContainer to='/profile'>
                   <NavDropdown.Item>Profile</NavDropdown.Item>
                 </LinkContainer>
+                <LinkContainer to='/infos-profile'>
+                  <NavDropdown.Item>Infos</NavDropdown.Item>
+                </LinkContainer>
                 <NavDropdown.Item onClick={logOutHandler}>Logout</NavDropdown.Item>
               </NavDropdown>
             ):(
