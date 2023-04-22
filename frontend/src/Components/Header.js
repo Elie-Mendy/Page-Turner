@@ -4,6 +4,8 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from "../actions/userActions";
 
+
+
 function Header() {
 
   //get the userLogin info 
@@ -37,6 +39,9 @@ function Header() {
               <NavDropdown title={userInfo.name} id='username'>
                 <LinkContainer to='/profile'>
                   <NavDropdown.Item>Profile</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to='/infos-profile'>
+                  <NavDropdown.Item>Infos</NavDropdown.Item>
                 </LinkContainer>
                 <NavDropdown.Item onClick={logOutHandler}>Logout</NavDropdown.Item>
               </NavDropdown>
