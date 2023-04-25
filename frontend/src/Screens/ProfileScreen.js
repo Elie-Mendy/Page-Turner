@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Row, Col, Button, Card } from "react-bootstrap";
+import { Form, Row, Col, Button, Card, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Components/Loader";
 import Message from "../Components/Message";
@@ -8,6 +8,11 @@ import ProfileBanner from '../Components/ProfileBanner';
 import ProfilMenu from '../Components/ProfilMenu';
 import ProfilAbout from '../Components/ProfilAbout'
 import ProfilPost from '../Components/ProfilPost'
+import BlogPost from '../Components/BlogPost'
+import Post from '../Components/Post'
+
+
+
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 
@@ -68,15 +73,21 @@ function ProfileScreen() {
                     <ProfilAbout/>
                 </Col>
                 <Col md={9}>
-                    <ProfilPost/>
-                    <ProfilPost/>
-                    <ProfilPost/>
-                    <ProfilPost/>
-                    <ProfilPost/>
-                    <ProfilPost/>
+                    <ListGroup variant="flush">
+                        <ListGroup.Item>
+                            <BlogPost/>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            <ProfilPost/>
+                            <ProfilPost/>
+                            <ProfilPost/>
+                            <ProfilPost/>
+                            <ProfilPost/>
+                            <ProfilPost/>
+                        </ListGroup.Item>
+                    </ListGroup>
                 </Col>
             </Row>
-            
         </>
     );
 }
