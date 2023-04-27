@@ -1,39 +1,26 @@
-import { Row, Col, Image, ListGroup, Button, Card, Form } from 'react-bootstrap'
+import {
+  Row,
+  Col,
+} from "react-bootstrap";
+import posts from "../posts";
+import PostCard from "./PostCard";
+import PostDetail from './PostDetail';
+import { useState } from "react";
+
 
 function BlogPost() {
-    return (
-        <ListGroup variant="flush">
-          <Row>
-            <Col md={4}>
-            <ListGroup.Item>
-                <strong>Premier article de blog ! </strong>
-                <br/>
-                <br/>
-                Lorem ipsum dolor sit amet, consectetur 
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </ListGroup.Item>
-            </Col>
-            <Col md={4}>
-              <ListGroup.Item>
-                  <strong>Deuxième article de blog ! </strong>
-                  <br/>
-                  <br/>
-                  Lorem ipsum dolor sit amet, consectetur 
-                  adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </ListGroup.Item>
-            </Col>
-            <Col md={4}>
-              <ListGroup.Item>
-                  <strong>Troisième article de blog !</strong>
-                  <br/>
-                  <br/>
-                  Lorem ipsum dolor sit amet, consectetur 
-                  adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </ListGroup.Item> 
-            </Col>
-          </Row>
-        </ListGroup>
-    );
+  const [gridView, setGridView] = useState(true);
+  const [postId, setpostId] = useState(1);
+
+  return (
+    <Row>
+      {gridView ? posts.map((post, index) => (
+        <Col key={index} sm={12} md={6} lg={3}>
+          <PostCard post={post} setterView={setGridView} setterPostId={setpostId}/>
+        </Col>
+      )) : <PostDetail post={posts[postId - 1]} setterView={setGridView}/>}
+    </Row>
+  );
 }
 
 export default BlogPost;
