@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Row, Col, Button, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../Components/Loader";
-import Message from "../Components/Message";
 import ProfileBanner from '../Components/ProfileBanner';
 import ProfilMenu from '../Components/ProfilMenu';
-import ProfilAbout from '../Components/ProfilAbout'
-import ProfilPost from '../Components/ProfilPost'
+
+
+
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 
 function ProfileScreen() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
 
     const navigate = useNavigate();
@@ -44,39 +40,11 @@ function ProfileScreen() {
         }
     }, [dispatch, navigate, userInfo, user, success]);
 
-    const submitHandler = (e) => {
-        e.preventDefault();
-        if (password !== confirmPassword) {
-            setMessage("Password do not match");
-        } else {
-            setMessage("");
-            dispatch(updateUserProfile({
-                'id': user._id,
-                'name': name,
-                'email': email,
-                'password': password,
-            }))
-        }
-    };
 
     return (
         <>
             <ProfileBanner/>
             <ProfilMenu/>
-            <Row>
-                <Col md={3}>
-                    <ProfilAbout/>
-                </Col>
-                <Col md={9}>
-                    <ProfilPost/>
-                    <ProfilPost/>
-                    <ProfilPost/>
-                    <ProfilPost/>
-                    <ProfilPost/>
-                    <ProfilPost/>
-                </Col>
-            </Row>
-            
         </>
     );
 }
