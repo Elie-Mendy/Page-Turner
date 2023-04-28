@@ -7,7 +7,7 @@ from blog.serializers import BlogPostSerializer
 
 @api_view(['GET'])
 def getPosts(request):
-    posts = BlogPost.objects.all().order_by("-created_on")
+    posts = BlogPost.objects.all().order_by("id")
     serializer = BlogPostSerializer(posts, many=True)
     return Response(serializer.data)
 

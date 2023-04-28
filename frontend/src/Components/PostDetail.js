@@ -19,9 +19,9 @@ function PostDetail({ setterView, post }) {
         <Col md={9}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h1>{post.titre}</h1>
+              <h1>{post.title}</h1>
             </ListGroup.Item>
-            <ListGroup.Item>{post.description}</ListGroup.Item>
+            <ListGroup.Item>{post.content}</ListGroup.Item>
           </ListGroup>
         </Col>
       </Row>

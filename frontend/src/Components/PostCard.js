@@ -10,10 +10,10 @@ function PostCard({ post, setterView, setterPostId }) {
   return (
     <Card className="my-3 p-3" onClick={() => handleClick()}>
       <Card.Body>
-        <Card.Title as="div">{post.titre}</Card.Title>
+        <Card.Title as="div">{post.title}</Card.Title>
       </Card.Body>
       <Card.Text as="div">
-        <div className="my-3">{post.description.substring(0, 255) + "..."}</div>
+        <div className="my-3">{post.content.substring(0, 255) + "..."}</div>
       </Card.Text>
     </Card>
   );
