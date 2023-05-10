@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     
     "base.apps.BaseConfig",
     "blog",
+
+    
+    "recommandation2",
 ]
 
 MIDDLEWARE = [
