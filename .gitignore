@@ -57,3 +57,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# dataset
+*Preprocessed_data.csv
