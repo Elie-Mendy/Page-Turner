@@ -12,11 +12,11 @@ function SearchBar() {
 
 
     return (
-        <Form onSubmit={handleSubmit} className="row homepage-searchbar">
+        <Form onSubmit={handleSubmit} className="row  homepage-searchbar">
             <FormControl
                 type="text"
                 placeholder={placeholder}
-                className="mr-sm-2 form-inline"
+                className="mr-sm-2 shaddowed"
                 value={searchValue}
                 onChange={handleInputChange}
             />

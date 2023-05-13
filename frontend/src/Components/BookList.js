@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { HomeScreenContext } from "../Context/HomeScreenContext";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import Book from "../Components/Book";
 import Loader from "../Components/Loader";
 import Message from "../Components/Message";
@@ -9,8 +9,8 @@ function BookList() {
     const { loading, error, books } = useContext(HomeScreenContext);
 
     return (
-        <>
-            {loading && <Loader />}
+        <Container className="text-center py-3">
+            {loading && <Loader/>}
             {error && <Message variant="danger">{error}</Message>}
             {books && books.items && (
                 <Row>
@@ -21,7 +21,7 @@ function BookList() {
                     ))}
                 </Row>
             )}
-        </>
+        </Container>
     );
 }
 

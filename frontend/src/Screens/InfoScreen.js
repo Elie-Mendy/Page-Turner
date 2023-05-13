@@ -59,7 +59,7 @@ function InfoScreen() {
 
     return (
         <Row>
-            <Col md={3}>
+            <Col md={9}>
                 <h2>User Profile</h2>
                 {message && <Message variant="danger">{message}</Message>}
                 {error && <Message variant="danger">{error}</Message>}
@@ -73,6 +73,7 @@ function InfoScreen() {
                             placeholder="Enter Name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            className="shaddowed"
                         ></Form.Control>
                     </Form.Group>
 
@@ -84,6 +85,7 @@ function InfoScreen() {
                             placeholder="Enter Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            className="shaddowed"
                         ></Form.Control>
                     </Form.Group>
 
@@ -94,6 +96,7 @@ function InfoScreen() {
                             placeholder="Enter Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            className="shaddowed"
                         ></Form.Control>
                     </Form.Group>
 
@@ -104,6 +107,7 @@ function InfoScreen() {
                             placeholder="Confirm Password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
+                            className="shaddowed"
                         ></Form.Control>
                     </Form.Group>
 
@@ -111,9 +115,6 @@ function InfoScreen() {
                         Update
                     </Button>
                 </Form>
-            </Col>
-            <Col md={9}>
-                <h2>My Orders</h2>
             </Col>
         </Row>
     );

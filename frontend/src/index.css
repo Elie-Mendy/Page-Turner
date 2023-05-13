@@ -46,6 +46,10 @@ h3 {
   object-fit: cover;
 }
 
+/* NavBar */ 
+.navbar {
+  box-shadow: rgb(145 158 171 / 20%) 0px 0px 2px 0px, rgb(145 158 171 / 12%) 0px 12px 24px -4px;
+}
 
 /* Profile Menu */ 
 .horizontal-menu {
@@ -105,6 +109,8 @@ h3 {
 
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
   background-color: #343a40;
+  box-shadow: rgb(145 158 171 / 20%) 0px 0px 2px 0px, rgb(145 158 171 / 12%) 0px 12px 24px -4px;
+
 } 
 
 
@@ -112,9 +118,27 @@ h3 {
   justify-content: center;
   height: 1.3rem;
   width: 30rem;
+  box-shadow: rgb(145 158 171 / 20%) 0px 0px 2px 0px, rgb(145 158 171 / 12%) 0px 12px 24px -4px;
   margin-right: 0.2rem;
 }
 
 .homepage-search {
   display: flex;
+  height: 3rem;
+  border-radius:15px;
+}
+
+.shaddowed {
+  box-shadow: rgb(145 158 171 / 20%) 0px 0px 2px 0px, rgb(145 158 171 / 12%) 0px 12px 24px -4px;
+}
+
+img {
+  border-radius: 10px;
+}
+
+.spinner-border {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 48%;
 }
