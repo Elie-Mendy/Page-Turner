@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../actions/userActions";
+import { logout } from "../Actions/userActions";
 
 function Header() {
     //get the userLogin info

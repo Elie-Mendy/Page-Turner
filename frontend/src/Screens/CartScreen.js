@@ -16,7 +16,7 @@ import {
     Card,
 } from "react-bootstrap";
 import Message from "../Components/Message";
-import { addToCart, removeFromCart } from "../actions/cartActions";
+import { addToCart, removeFromCart } from "../Actions/cartActions";
 
 function CartScreen() {
     const [searchParams, setSearchParams] = useSearchParams();

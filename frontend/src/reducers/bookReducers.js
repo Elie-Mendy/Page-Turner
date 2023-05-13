@@ -10,7 +10,7 @@ import {
     BOOK_COVER_REQUEST,
     BOOK_COVER_SUCCESS,
     BOOK_COVER_FAIL,
-} from "../constants/bookConstants";
+} from "../Constants/bookConstants";
 
 export const bookListReducer = (state = {books:[]}, action) => {
     switch(action.type){

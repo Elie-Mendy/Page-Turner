@@ -1,28 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import {
-    Row,
-    Col,
-    Image,
-    ListGroup,
-    Button,
-    Card,
-    Form,
-} from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { Row, Col, Image, ListGroup, Card } from "react-bootstrap";
 import Rating from "../Components/Rating";
 
 import { useDispatch, useSelector } from "react-redux";
-import { listBooksDetails, getCoverFromIsbn } from "../actions/bookActions";
+import { listBooksDetails, getCoverFromIsbn } from "../Actions/bookActions";
 
 import Loader from "../Components/Loader";
 import Message from "../Components/Message";
 
 function BookScreen() {
     const match = useParams();
-    const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    const [qty, setQty] = useState(1);
     //const img = `https://covers.openlibrary.org/b/isbn/${match.isbn}-M.jpg`
     const img = `http://images.amazon.com/images/P/${match.isbn}.01.LZZZZZZZ.jpg`;
 
@@ -33,6 +22,7 @@ function BookScreen() {
     const { isCover } = bookCover;
 
     useEffect(() => {
+        console.log("useEffect", match.isbn);
         dispatch(listBooksDetails(match.isbn));
         dispatch(getCoverFromIsbn(match.isbn));
     }, [dispatch, match]);

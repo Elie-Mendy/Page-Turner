@@ -4,8 +4,8 @@ import { Form, Row, Col, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Components/Loader";
 import Message from "../Components/Message";
-import { getUserDetails, updateUserProfile } from "../actions/userActions";
-import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
+import { getUserDetails, updateUserProfile } from "../Actions/userActions";
+import { USER_UPDATE_PROFILE_RESET } from "../Constants/userConstants";
 
 function InfoScreen() {
     const [name, setName] = useState("");

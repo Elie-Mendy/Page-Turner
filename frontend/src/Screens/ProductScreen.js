@@ -12,7 +12,7 @@ import {
 import Rating from "../Components/Rating";
 
 import { useDispatch, useSelector } from "react-redux";
-import { listProductsDetails } from "../actions/productActions";
+import { listProductsDetails } from "../Actions/productActions";
 
 import Loader from "../Components/Loader";
 import Message from "../Components/Message";

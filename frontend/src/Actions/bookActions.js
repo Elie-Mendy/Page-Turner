@@ -13,7 +13,7 @@ import {
     BOOK_COVER_REQUEST,
     BOOK_COVER_SUCCESS,
     BOOK_COVER_FAIL,
-} from "../constants/bookConstants";
+} from "../Constants/bookConstants";
 
 // redux-thunk allows us to return async function instead of regular actions
 export const listBooks = (query=null) => async (dispatch, isbn) => {

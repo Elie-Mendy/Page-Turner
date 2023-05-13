@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { HomeScreenContext } from "../Context/HomeScreenContext";
 import { Form, FormControl } from "react-bootstrap";
 
-function SearchBar({ handleInputChange, handleSubmit }) {
-    const { placeholder, searchValue } = useContext(HomeScreenContext);
+function SearchBar() {
+    const { placeholder, searchValue, handleInputChange, handleSubmit} = useContext(HomeScreenContext);
     return (
         <Form
             onSubmit={handleSubmit}

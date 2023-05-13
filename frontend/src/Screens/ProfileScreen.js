@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import ProfileBanner from "../Components/ProfileBanner";
 import ProfilMenu from "../Components/ProfilMenu";
 
-import { getUserDetails, updateUserProfile } from "../actions/userActions";
-import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
+import { getUserDetails, updateUserProfile } from "../Actions/userActions";
+import { USER_UPDATE_PROFILE_RESET } from "../Constants/userConstants";
 
 function ProfileScreen() {
     const [name, setName] = useState("");

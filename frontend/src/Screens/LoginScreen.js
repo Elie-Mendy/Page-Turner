@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Components/Loader";
 import Message from "../Components/Message";
 import FormContainer from "../Components/FormContainer";
-import { login } from "../actions/userActions";
+import { login } from "../Actions/userActions";
 
 function LoginScreen() {
     const [email, setEmail] = useState("");

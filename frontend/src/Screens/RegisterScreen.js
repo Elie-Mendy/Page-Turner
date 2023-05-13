@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Components/Loader";
 import Message from "../Components/Message";
 import FormContainer from "../Components/FormContainer";
-import { register } from "../actions/userActions";
+import { register } from "../Actions/userActions";
 
 function RegisterScreen() {
     const [name, setName] = useState("");

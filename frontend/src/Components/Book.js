@@ -1,15 +1,13 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import axios from 'axios';
 import { Card } from "react-bootstrap";
 import Rating from "./Rating";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { getCoverFromIsbn } from "../actions/bookActions";
+import { useDispatch } from "react-redux";
 
 function Book({ book }) {
     const dispatch = useDispatch();
     const volumeInfo = book.volumeInfo;
-    const saleInfo = book.saleInfo;
 
     const isbn_10 =
         volumeInfo.industryIdentifiers &&
@@ -27,21 +25,27 @@ function Book({ book }) {
         volumeInfo.imageLinks.thumbnail &&
         volumeInfo.imageLinks.thumbnail;
 
-    const img = `https://covers.openlibrary.org/b/isbn/${isbn_13}-M.jpg`;
+    const [cover, setCover] = useState(googleCover)
 
-    const bookCover = useSelector((state) => state.bookCover);
-    const { isCover } = bookCover;
+    async function getCoverFromIsbn(isbn) {
+        let coverAmazon = new Image();
+        let coverUrl = `http://images.amazon.com/images/P/${isbn}.01.LZZZZZZZ.jpg`
+        coverAmazon = await axios.get (coverUrl)
+        if (coverAmazon.data !== "GIF89a\u0001\u0000\u0001\u0000�\u0001\u0000\u0000\u0000\u0000���!�\u0004\u0001\u0000\u0000\u0001\u0000,\u0000\u0000\u0000\u0000\u0001\u0000\u0001\u0000\u0000\u0002\u0002L\u0001\u0000;") {
+            setCover(coverUrl)
+        }
+    }
 
-    const price = saleInfo.listPrice && saleInfo.listPrice.amount;
+    //const img = `https://covers.openlibrary.org/b/isbn/${isbn_13}-M.jpg`;
 
     useEffect(() => {
-        dispatch(getCoverFromIsbn(isbn_13));
-    }, [dispatch]);
+        getCoverFromIsbn(isbn)
+    }, [isbn]);
 
     return (
         <Card className="my-3 p-3">
             <Link to={`/books/${isbn}`}>
-                <Card.Img src={isCover ? img : googleCover} />
+                <Card.Img src={cover} />
             </Link>
 
             <Card.Body>
@@ -60,11 +64,6 @@ function Book({ book }) {
                     />
                 </div>
             </Card.Text>
-            {/* { price && (
-                <Card.Text as="h3">
-                    {price}
-                </Card.Text>
-            )} */}
         </Card>
     );
 }

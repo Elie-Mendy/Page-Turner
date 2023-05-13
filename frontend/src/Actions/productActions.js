@@ -6,7 +6,7 @@ import {
     PRODUCT_DETAIL_REQUEST,
     PRODUCT_DETAIL_SUCCESS,
     PRODUCT_DETAIL_FAIL,
-} from '../constants/productConstants';
+} from '../Constants/productConstants';
 
 // redux-thunk allows us to return async function instead of regular actions 
 export const listProducts = () => async (dispatch) => {
