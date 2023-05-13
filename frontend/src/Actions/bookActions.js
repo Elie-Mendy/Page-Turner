@@ -16,18 +16,27 @@ import {
 } from "../Constants/bookConstants";
 
 // redux-thunk allows us to return async function instead of regular actions
-export const listBooks = (query=null) => async (dispatch, isbn) => {
+export const listBooks = (searchValue=null, searchType="tab1") => async (dispatch, isbn) => {
     try {
         dispatch({ type: BOOK_LIST_REQUEST });
-        const request = query ? 
-            `${API_BOOKS_URL}/volumes?q=intitle:${query}&orderBy=newest&caseInsensitive=true&maxResults=40` : 
-            `${API_BOOKS_URL}/volumes?q=subject:fantasy&orderBy=newest&caseInsensitive=true&maxResults=40`; 
-        const { data } = await axios.get(request)
-        
-        dispatch({
-            type: BOOK_LIST_SUCCESS,
-            payload: data,
-        });
+
+        switch(searchType) {
+            case "tab1":
+                const request = searchValue ? 
+                    `${API_BOOKS_URL}/volumes?q=intitle:${searchValue}&orderBy=newest&caseInsensitive=true&maxResults=40` : 
+                    `${API_BOOKS_URL}/volumes?q=subject:fantasy&orderBy=newest&caseInsensitive=true&maxResults=40`; 
+                const { data } = await axios.get(request)
+                
+                dispatch({
+                    type: BOOK_LIST_SUCCESS,
+                    payload: data,
+                });
+                break;
+            case "tab2":
+                break;
+            default:
+                break;
+        }
     } catch (error) {
         dispatch({
             type: BOOK_LIST_FAIL,

@@ -4,8 +4,9 @@ import { Nav, Tab } from "react-bootstrap";
 
 function TabsExample() {
     const [activeTab, setActiveTab] = useState("tab1");
-    const { handleSearchType } = useContext(HomeScreenContext);
+    const { handleSearchType, setSearchValue } = useContext(HomeScreenContext);
     const handleTabSelect = (tab) => {
+        setSearchValue('');
         setActiveTab(tab);
         handleSearchType(tab);
     };

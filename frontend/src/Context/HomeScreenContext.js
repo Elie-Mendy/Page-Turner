@@ -23,8 +23,8 @@ export function HomeScreenContextProvider({ children }) {
     const { loading, error, books } = bookList;
 
     useEffect(() => {
-        dispatch(listBooks(searchValue));
-    }, [dispatch, searchValue]);
+        dispatch(listBooks(searchValue, searchType));
+    }, [dispatch, searchValue, searchType]);
 
     const handleSearchType = (searchType) => {
         switch (searchType) {
@@ -44,6 +44,7 @@ export function HomeScreenContextProvider({ children }) {
     const context = {
         searchType,
         searchValue,
+        setSearchValue,
         placeholder,
         handleSearchType,
         handleInputChange,

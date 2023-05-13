@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 
 import subprocess
 import os
@@ -10,11 +10,11 @@ from django.conf import settings
 
 
 def trigger_recommandation(request):
-    print(os.getcwd())
+    fullpath =  os.getcwd()+"/scripts/reco.py"
     execution_output = subprocess.run(
         [
-            "python",
-            os.path.join(os.getcwd(), "scripts/reco.py"),
+            "python3",
+            fullpath,
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -23,7 +23,6 @@ def trigger_recommandation(request):
     print(execution_output)
     return JsonResponse(
         {
-            "stdout": execution_output.stdout.decode("utf8"),
-            "stderr": execution_output.stderr.decode("utf8"),
+            "stdout": execution_output.stdout.decode("utf8").strip(),
         }
     )

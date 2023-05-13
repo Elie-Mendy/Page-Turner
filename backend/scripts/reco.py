@@ -19,8 +19,6 @@ nltk.download('punkt') # modèle pour la tokénisation des textes -- utiles pour
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from PIL import Image
-
 warnings.filterwarnings('ignore')
 
 books = pd.read_csv(os.path.join(os.getcwd(),'scripts/Preprocessed_data.csv'))
@@ -174,7 +172,7 @@ def custom_recommender(book_title):
         top_rated = top_rated.sort_values('rating',ascending=False).iloc[:1]['book_title'].values[0]
         recommended_books.append(top_rated)
 
-      print([get_isbn(book_title) for book_title in recommended_books])
+      print(', '.join([get_isbn(book_title) for book_title in recommended_books]))
 
     #####--------------------------------- FORMATE AFFICHAGE RESULTAT ------------------------------#####     
   else:
