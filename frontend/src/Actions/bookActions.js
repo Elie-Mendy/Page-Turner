@@ -16,25 +16,48 @@ import {
 } from "../Constants/bookConstants";
 
 // redux-thunk allows us to return async function instead of regular actions
-export const listBooks = (searchValue=null, searchType="tab1") => async (dispatch, isbn) => {
+export const listBooks = (searchValue=null, searchType=null) => async (dispatch, isbn) => {
     try {
         dispatch({ type: BOOK_LIST_REQUEST });
 
         switch(searchType) {
-            case "tab1":
-                const request = searchValue ? 
-                    `${API_BOOKS_URL}/volumes?q=intitle:${searchValue}&orderBy=newest&caseInsensitive=true&maxResults=40` : 
-                    `${API_BOOKS_URL}/volumes?q=subject:fantasy&orderBy=newest&caseInsensitive=true&maxResults=40`; 
-                const { data } = await axios.get(request)
+            case "tab2":
+                const recommandedData = await axios.get(/recommandation/)
+                const isbns = recommandedData.data.stdout.split(', ');
                 
+                const requests = [];
+                const recommandedBooks= {kind:"books#volumes", items:[]};
+                for (let i = 0; i < isbns.length; i++) {
+                    const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbns[i]}`;
+                    requests.push(axios.get(url));
+                }
+                
+                await axios.all(requests)
+                .then(responses => {
+                    // Les informations sur les livres se trouvent dans les objets responses[i].data.items[0].volumeInfo
+                    for (let i = 0; i < responses.length; i++) {
+
+                    console.log(responses[i].data.items[0]);
+                    recommandedBooks.items.push(responses[i].data.items[0])
+                    }
+                })
+                .catch(error => console.log(error));
+                console.log(recommandedBooks)
+                dispatch({
+                    type: BOOK_LIST_SUCCESS,
+                    payload: recommandedBooks,
+                });
+                break;
+            default:
+                let query = searchValue ? `intitle:${searchValue}` : 'subject:fantasy';
+                const request = `${API_BOOKS_URL}/volumes?q=${query}&orderBy=newest&caseInsensitive=true&maxResults=40` 
+    
+                const { data } = await axios.get(request)
+                console.log('data : ', data)
                 dispatch({
                     type: BOOK_LIST_SUCCESS,
                     payload: data,
                 });
-                break;
-            case "tab2":
-                break;
-            default:
                 break;
         }
     } catch (error) {
