@@ -110,4 +110,11 @@ h3 {
 
 .homepage-searchbar {
   justify-content: center;
+  height: 1.3rem;
+  width: 30rem;
+  margin-right: 0.2rem;
+}
+
+.homepage-search {
+  display: flex;
 }

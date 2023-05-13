@@ -9,12 +9,17 @@ from django.conf import settings
 
 
 
-def trigger_recommandation(request):
+def trigger_recommandation(request, book_title=None):
     fullpath =  os.getcwd()+"/scripts/reco.py"
+    if not book_title : 
+        print('No title')
+        return JsonResponse({})
+    print('title', book_title)
     execution_output = subprocess.run(
         [
             "python3",
             fullpath,
+            book_title
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

@@ -9,13 +9,13 @@ export function HomeScreenContextProvider({ children }) {
     const [placeholder, setPlaceholder] = useState("Livres les plus récents");
     const [searchValue, setSearchValue] = useState("");
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event) => {   
         setSearchValue(event.target.value);
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        dispatch(listBooks(searchValue));
+        dispatch(listBooks(searchValue, searchType));
     };
 
     const dispatch = useDispatch();
@@ -23,7 +23,9 @@ export function HomeScreenContextProvider({ children }) {
     const { loading, error, books } = bookList;
 
     useEffect(() => {
-        dispatch(listBooks(searchValue, searchType));
+        if (searchType !== "tab2") {
+            dispatch(listBooks(searchValue, searchType));
+        }
     }, [dispatch, searchValue, searchType]);
 
     const handleSearchType = (searchType) => {

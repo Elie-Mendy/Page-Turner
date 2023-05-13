@@ -4,6 +4,7 @@
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 import os
+import sys
 import re
 import nltk
 import requests
@@ -200,4 +201,6 @@ def custom_recommender(book_title):
 
 
 if __name__ == "__main__":
-    custom_recommender('The Summons')
+    book_title = sys.argv[1]
+    # The Summons
+    custom_recommender(book_title)

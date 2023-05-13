@@ -19,34 +19,37 @@ import {
 export const listBooks = (searchValue=null, searchType=null) => async (dispatch, isbn) => {
     try {
         dispatch({ type: BOOK_LIST_REQUEST });
-
+        let url;
         switch(searchType) {
             case "tab2":
-                const recommandedData = await axios.get(/recommandation/)
-                const isbns = recommandedData.data.stdout.split(', ');
-                
-                const requests = [];
-                const recommandedBooks= {kind:"books#volumes", items:[]};
-                for (let i = 0; i < isbns.length; i++) {
-                    const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbns[i]}`;
-                    requests.push(axios.get(url));
-                }
-                
-                await axios.all(requests)
-                .then(responses => {
-                    // Les informations sur les livres se trouvent dans les objets responses[i].data.items[0].volumeInfo
-                    for (let i = 0; i < responses.length; i++) {
-
-                    console.log(responses[i].data.items[0]);
-                    recommandedBooks.items.push(responses[i].data.items[0])
+                url = `/recommandation/${searchValue}`
+                const recommandedData = await axios.get(url)
+                let isbns = recommandedData.data.stdout;
+                if (isbns) {
+                    isbns = recommandedData.data.stdout.split(', ');
+                    const requests = [];
+                    const recommandedBooks= {kind:"books#volumes", items:[]};
+                    for (let i = 0; i < isbns.length; i++) {
+                        const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbns[i]}`;
+                        requests.push(axios.get(url));
                     }
-                })
-                .catch(error => console.log(error));
-                console.log(recommandedBooks)
-                dispatch({
-                    type: BOOK_LIST_SUCCESS,
-                    payload: recommandedBooks,
-                });
+                    
+                    await axios.all(requests)
+                    .then(responses => {
+                        // Les informations sur les livres se trouvent dans les objets responses[i].data.items[0].volumeInfo
+                        for (let i = 0; i < responses.length; i++) {
+
+                        console.log(responses[i].data.items[0]);
+                        recommandedBooks.items.push(responses[i].data.items[0])
+                        }
+                    })
+                    .catch(error => console.log(error));
+                    console.log(recommandedBooks)
+                    dispatch({
+                        type: BOOK_LIST_SUCCESS,
+                        payload: recommandedBooks,
+                    });
+                } 
                 break;
             default:
                 let query = searchValue ? `intitle:${searchValue}` : 'subject:fantasy';
