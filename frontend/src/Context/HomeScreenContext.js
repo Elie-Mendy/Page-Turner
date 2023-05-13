@@ -1,32 +1,61 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { listBooks } from "../actions/bookActions";
 
 export const HomeScreenContext = createContext();
 
-export function HomeScreenContextProvider({children}) {
-  const [searchType, setSearchType] = useState(1);
-  const [placeholder, setPlaceholder] = useState("Livres les plus récents");
+export function HomeScreenContextProvider({ children }) {
+    const [searchType, setSearchType] = useState(1);
+    const [placeholder, setPlaceholder] = useState("Livres les plus récents");
+    const [searchValue, setSearchValue] = useState("");
 
-  const handleSearchType = (searchType) => {
-    switch(searchType) {
-      case "tab1":
-        setPlaceholder("Livres les plus récents");
-        break;
-      case "tab2":
-        setPlaceholder("Recherche par similarité");
-        break;
-      default:
-        setPlaceholder("Recherche par gouts d'utilisateurs");
-        break;
-    }
-    setSearchType(searchType);
-  }
+    const handleInputChange = (event) => {
+        setSearchValue(event.target.value);
+    };
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        dispatch(listBooks(searchValue));
+    };
 
-  const data = { searchType, placeholder, handleSearchType };
+    const dispatch = useDispatch();
+    const bookList = useSelector((state) => state.bookList);
+    const { loading, error, books } = bookList;
 
-  return (
-    <HomeScreenContext.Provider value={data}>
-      {children}
-    </HomeScreenContext.Provider>
-  );
+    useEffect(() => {
+        dispatch(listBooks(searchValue));
+    }, [dispatch, searchValue]);
+
+    const handleSearchType = (searchType) => {
+        switch (searchType) {
+            case "tab1":
+                setPlaceholder("Livres les plus récents");
+                break;
+            case "tab2":
+                setPlaceholder("Recherche par similarité");
+                break;
+            default:
+                setPlaceholder("Recherche par gouts d'utilisateurs");
+                break;
+        }
+        setSearchType(searchType);
+    };
+
+    const context = {
+        searchType,
+        searchValue,
+        placeholder,
+        handleSearchType,
+        handleInputChange,
+        handleSubmit,
+        loading,
+        error,
+        books,
+    };
+
+    return (
+        <HomeScreenContext.Provider value={context}>
+            {children}
+        </HomeScreenContext.Provider>
+    );
 }

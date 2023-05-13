@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import ProfileBanner from '../Components/ProfileBanner';
-import ProfilMenu from '../Components/ProfilMenu';
-
-
+import ProfileBanner from "../Components/ProfileBanner";
+import ProfilMenu from "../Components/ProfilMenu";
 
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
-import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
+import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 
 function ProfileScreen() {
     const [name, setName] = useState("");
@@ -28,23 +26,22 @@ function ProfileScreen() {
 
     useEffect(() => {
         if (!userInfo) {
-            navigate('/login');
+            navigate("/login");
         } else {
-            if(!user || !user.name || success){
-                dispatch(getUserDetails('profile'))
-                dispatch({ type: USER_UPDATE_PROFILE_RESET })
+            if (!user || !user.name || success) {
+                dispatch(getUserDetails("profile"));
+                dispatch({ type: USER_UPDATE_PROFILE_RESET });
             } else {
-                setName(user.name)
-                setEmail(user.email)
+                setName(user.name);
+                setEmail(user.email);
             }
         }
     }, [dispatch, navigate, userInfo, user, success]);
 
-
     return (
         <>
-            <ProfileBanner/>
-            <ProfilMenu/>
+            <ProfileBanner />
+            <ProfilMenu />
         </>
     );
 }

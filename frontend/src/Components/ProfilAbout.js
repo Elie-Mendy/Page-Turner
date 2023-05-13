@@ -10,17 +10,11 @@ function ProfilAbout() {
             <Card className="my-3 p-3 ">
                 <Card.Body>
                     <Card.Title>About</Card.Title>
-                    <Card.Text>
-                        Description de la carte.
-                    </Card.Text>
-                    <hr/>
-                    <Card.Text>
-                        Description de la carte. 
-                    </Card.Text>
-                    <hr/>
-                    <Card.Text>
-                        Description de la carte. 
-                    </Card.Text>
+                    <Card.Text>Description de la carte.</Card.Text>
+                    <hr />
+                    <Card.Text>Description de la carte.</Card.Text>
+                    <hr />
+                    <Card.Text>Description de la carte.</Card.Text>
                 </Card.Body>
             </Card>
         </>
