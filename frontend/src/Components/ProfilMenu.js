@@ -24,27 +24,15 @@ const HorizontalMenu = () => {
           <Nav.Item>
             <Nav.Link eventKey="tab1"><FontAwesomeIcon icon={faHome} /> Profile</Nav.Link>
           </Nav.Item>
-          {/* <Nav.Item>
-            <Nav.Link eventKey="tab2"><FontAwesomeIcon icon={faEnvelope} /> Recommandation 1</Nav.Link>
-          </Nav.Item>
           <Nav.Item>
-            <Nav.Link eventKey="tab3"><FontAwesomeIcon icon={faUser} /> Recommandation 2</Nav.Link>
-          </Nav.Item> */}
-          <Nav.Item>
-            <Nav.Link eventKey="tab4"><FontAwesomeIcon icon={faUser} /> Blog</Nav.Link>
+            <Nav.Link eventKey="tab2"><FontAwesomeIcon icon={faUser} /> Blog</Nav.Link>
           </Nav.Item>
         </Nav>
         <TabContent>
           <Tab.Pane eventKey="tab1">
             <ProfileUser/>
           </Tab.Pane>
-          {/* <Tab.Pane eventKey="tab2">
-            <Recommandation1/>
-          </Tab.Pane>
-          <Tab.Pane eventKey="tab3">
-            <Recommandation2/>
-          </Tab.Pane> */}
-          <Tab.Pane eventKey="tab4" >
+          <Tab.Pane eventKey="tab2" >
             <Blog/>
           </Tab.Pane>
         </TabContent>

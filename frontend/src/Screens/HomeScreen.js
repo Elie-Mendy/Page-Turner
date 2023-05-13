@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
+import { HomeScreenContextProvider } from '../Context/HomeScreenContext'
 import Book from '../Components/Book'
 import Loader from '../Components/Loader'
 import Message from '../Components/Message'
@@ -40,35 +41,37 @@ function HomeScreen() {
 	}, [dispatch, searchValue])
 
 	return (
-		<div>
-			<Row>
-				<Col>
-					<HomepageDropdown/>
-				</Col>
-
-				<Col>
-					<SearchBar
-						searchValue={searchValue}
-						handleInputChange={handleInputChange}
-						handleSubmit={handleSubmit}
-					/>
-				</Col>
-			</Row>
-			{ loading && <Loader/>}
-			{ error && <Message variant='danger'>{error}</Message>}
-			
-			{ books && books.items && (
+		<HomeScreenContextProvider>
+			<div>
 				<Row>
-					{ books.items.map(book => ( 
-						<Col key={book.id} sm={12} md={6} lg={3}>
-							<Book book={book} />
-						</Col>
-					))} 
+					<Col>
+						<HomepageDropdown/>
+					</Col>
+
+					<Col>
+						<SearchBar
+							searchValue={searchValue}
+							handleInputChange={handleInputChange}
+							handleSubmit={handleSubmit}
+						/>
+					</Col>
 				</Row>
-				)
-			}
-			
-		</div>
+				{ loading && <Loader/>}
+				{ error && <Message variant='danger'>{error}</Message>}
+				
+				{ books && books.items && (
+					<Row>
+						{ books.items.map(book => ( 
+							<Col key={book.id} sm={12} md={6} lg={3}>
+								<Book book={book} />
+							</Col>
+						))} 
+					</Row>
+					)
+				}
+				
+			</div>
+		</HomeScreenContextProvider>
 	)
 }
 

@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import { useState , useContext } from 'react';
+import { HomeScreenContext } from '../Context/HomeScreenContext'
 import { Nav, Tab } from 'react-bootstrap';
 
 function TabsExample() {
   const [activeTab, setActiveTab] = useState('tab1');
-
+  const { handleSearchType } = useContext(HomeScreenContext)
   const handleTabSelect = (tab) => {
     setActiveTab(tab);
+    handleSearchType(tab)
   }
 
   return (

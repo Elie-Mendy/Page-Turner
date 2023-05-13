@@ -1,16 +1,18 @@
-import React from "react";
+import { useContext } from "react";
+import { HomeScreenContext } from '../Context/HomeScreenContext'
 import { Form, FormControl } from "react-bootstrap";
 
-function SearchBar(props) {
+function SearchBar({searchValue, handleInputChange, handleSubmit}) {
+  const { placeholder } = useContext(HomeScreenContext)
   return (
-    <Form onSubmit={props.handleSubmit} className="row className= homepage-searchbar">
+    <Form onSubmit={handleSubmit} className="row className= homepage-searchbar">
       <div>
         <FormControl
           type="text"
-          placeholder="Rechercher..."
+          placeholder={placeholder}
           className="mr-sm-2 "
-          value={props.searchValue}
-          onChange={props.handleInputChange}
+          value={searchValue}
+          onChange={handleInputChange}
         />
       </div>
     </Form>
