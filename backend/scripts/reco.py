@@ -48,56 +48,33 @@ df['Category'] = df['Category'].apply(
 # nettoie la colonne 'rating'
 df.drop(index=df[df['rating'] == 0].index, inplace=True)
 
+# Convertir toutes les valeurs en minuscules
+df['book_title'] = df['book_title'].str.lower()
+
 
 def get_isbn(book_title):
     return df.loc[df['book_title'] == book_title].iloc[0][1]
 
 
-def custom_recommender(book_title):
-
+def custom_recommender(searchValue):
     # ITEM-BASED
-    book_title = str(book_title)
-    if book_title in df['book_title'].values:
+    books = df[df['book_title'].str.contains(searchValue)].sort_values('rating', ascending=True)
+    if not books.empty:
+        # books = books.sort_values('rating', ascending=False)
+        book_title = None
         rating_counts = pd.DataFrame(df['book_title'].value_counts())
         rare_books = rating_counts[rating_counts['count'] <= 180].index
         common_books = df[~df['book_title'].isin(rare_books)]
 
-        if book_title in rare_books:
-            random = pd.Series(
-                common_books['book_title'].unique()).sample(2).values
-            print('There are no recommendations for this book')
-            print('Try: \n')
-            print('{}'.format(random[0]), '\n')
-            print('{}'.format(random[1]), '\n')
+        for book in books:
+            title = books.iloc[0]['book_title']
+            if title not in rare_books:
+                book_title = title
+                break
 
-        else:
+        if book_title:
             ##### --------------------------------- VECTORISATION ET CALCUL SIMILARITE ----------------------#####
-            user_book_df = common_books.pivot_table(
-                index=['user_id'], columns=['book_title'], values='rating')
-
-            book = user_book_df[book_title]
-            recom_data = pd.DataFrame(user_book_df.corrwith(
-                book).sort_values(ascending=False)).reset_index(drop=False)
-
-            if book_title in [book for book in recom_data['book_title']]:
-                recom_data = recom_data.drop(
-                    recom_data[recom_data['book_title'] == book_title].index[0])
-
-            low_rating = []
-            for i in recom_data['book_title']:
-                if df[df['book_title'] == i]['rating'].mean() < 5:
-                    low_rating.append(i)
-
-            if recom_data.shape[0] - len(low_rating) > 5:
-                recom_data = recom_data[~recom_data['book_title'].isin(
-                    low_rating)]
-
-            recom_data = recom_data[0:10]
-            recom_data.columns = ['book_title', 'corr']
             recommended_books = []
-            for i in recom_data['book_title']:
-                recommended_books.append(i)
-
             df_new = df[~df['book_title'].isin(recommended_books)]
 
             # CONTENT-BASED (Title, Author, Publisher, Category)
@@ -130,6 +107,34 @@ def custom_recommender(book_title):
 
             for i in books:
                 recommended_books.append(i)
+            
+            user_book_df = common_books.pivot_table(
+                index=['user_id'], columns=['book_title'], values='rating')
+
+            book = user_book_df[book_title]
+            recom_data = pd.DataFrame(user_book_df.corrwith(
+                book).sort_values(ascending=False)).reset_index(drop=False)
+
+            if book_title in [book for book in recom_data['book_title']]:
+                recom_data = recom_data.drop(
+                    recom_data[recom_data['book_title'] == book_title].index[0])
+
+            low_rating = []
+            for i in recom_data['book_title']:
+                if df[df['book_title'] == i]['rating'].mean() < 5:
+                    low_rating.append(i)
+
+            if recom_data.shape[0] - len(low_rating) > 5:
+                recom_data = recom_data[~recom_data['book_title'].isin(
+                    low_rating)]
+
+            recom_data = recom_data[0:10]
+            recom_data.columns = ['book_title', 'corr']
+            
+            for i in recom_data['book_title']:
+                recommended_books.append(i)
+
+            
 
             df_new = df_new[~df_new['book_title'].isin(recommended_books)]
 
@@ -201,6 +206,5 @@ def custom_recommender(book_title):
 
 
 if __name__ == "__main__":
-    book_title = sys.argv[1]
-    # The Summons
-    custom_recommender(book_title)
+    searchValue = sys.argv[1].lower()
+    custom_recommender(searchValue)
