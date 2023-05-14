@@ -23,7 +23,7 @@ export function HomeScreenContextProvider({ children }) {
     const { loading, error, books } = bookList;
 
     useEffect(() => {
-        if (searchType !== "tab2") {
+        if (searchType === "tab1") {
             dispatch(listBooks(searchValue, searchType));
         }
     }, [dispatch, searchValue, searchType]);

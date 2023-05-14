@@ -22,29 +22,35 @@ export const listBooks = (searchValue=null, searchType=null) => async (dispatch,
         let url;
         switch(searchType) {
             case "tab2":
+                
+                // appel du script 
                 url = `/recommandation/${searchValue}`
                 const recommandedData = await axios.get(url)
+
+                // recuperation des isbns retourné par le script
                 let isbns = recommandedData.data.stdout;
                 if (isbns) {
                     isbns = recommandedData.data.stdout.split(', ');
                     const requests = [];
                     const recommandedBooks= {kind:"books#volumes", items:[]};
+
+                    // preparation des requetes 
                     for (let i = 0; i < isbns.length; i++) {
                         const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbns[i]}`;
                         requests.push(axios.get(url));
                     }
                     
+                    // lancement des requetes
                     await axios.all(requests)
                     .then(responses => {
-                        // Les informations sur les livres se trouvent dans les objets responses[i].data.items[0].volumeInfo
+                        // 
                         for (let i = 0; i < responses.length; i++) {
-
-                        console.log(responses[i].data.items[0]);
-                        recommandedBooks.items.push(responses[i].data.items[0])
+                            recommandedBooks.items.push(responses[i].data.items[0])
                         }
                     })
                     .catch(error => console.log(error));
-                    console.log(recommandedBooks)
+
+                    // stoquage des resultats dans le redux store
                     dispatch({
                         type: BOOK_LIST_SUCCESS,
                         payload: recommandedBooks,
