@@ -25,15 +25,6 @@ users=pd.read_csv(os.path.join(os.getcwd(), "scripts/Users.csv"))
 
 
 
-
-
-
-
-
-
-
-
-
 """------------------------------------------------------------ PREPROCESSING -------------------------------------------------------"""
 books_data=books.merge(ratings,on="ISBN") # nouveau dataframe : combine les données des datasets "books" et "ratings" en fonction de leur colonne commune "ISBN"
 df=books_data.copy() # on travaille sur une copie de books_data
@@ -50,7 +41,6 @@ def get_isbn(book_title) :
 
 
 
-
 """------------------------------------------------------------ PREAPARE CALCUL -------------------------------------------------------"""
 new_df=df[df['User-ID'].map(df['User-ID'].value_counts()) > 200]  # Drop users who vote less than 200 times.
 users_pivot=new_df.pivot_table(index=["User-ID"],columns=["Book-Title"],values="Book-Rating") # table pivot qui contient les évaluations des utilisateurs pour chaque livre.
@@ -60,9 +50,6 @@ users_pivot.fillna(0,inplace=True)
 def users_choice(id): 
   users_fav=new_df[new_df["User-ID"]==id].sort_values(["Book-Rating"],ascending=False)[0:5] #elle trie ces lignes par ordre décroissant de la note de livre (Book-Rating) et ne garde que les 5 premières lignes correspondantes aux 5 livres préférés de l'utilisateur
   return users_fav
-
-
-
 
 
 
@@ -110,12 +97,6 @@ def user_based(new_df,id):
   return user_rec
 
 
-
-
-
-
-
-
 """------------------------------------------------------------ SELECTION DES RECOMMANDATIONS ------------------------------------------"""
 
 # La fonction renvoie les 5 premiers titres des livres recommandés pour l'utilisateur
@@ -137,90 +118,27 @@ def common(new_df,user,user_id):
   for i in user:
     y=new_df[(new_df["User-ID"]==i)] # 
     books=y.loc[~y["Book-Title"].isin(x["Book-Title"]),:] # 
-    books=books.sort_values(["Book-Rating"],ascending=False)[0:5]
+    books=books.sort_values(["Book-Rating"],ascending=False)[0:10]
     recommend_books.extend(books["Book-Title"].values)
   
-  return recommend_books[0:5]
-
-
-
-
-
-
-
-
-
-
-
+  return recommend_books[0:50]
 
 
 """------------------------------------------------------------ FORMATE AFFICHAGE RESULTATS ------------------------------------------"""
 
-# Selectionne un utilisateur au hasard et affiche ces 5 livres péférés ainsi que les cinq  livres qui lui sont recommandés
-
-# user_id=random.choice(new_df["User-ID"].values)
-# user_choice_df=pd.DataFrame(users_choice(user_id))
-# user_favorite=users_choice(user_id)
-# n=len(user_choice_df["Book-Title"].values)
-# print("🟦 USER: {} ".format(user_id))
-    
-# fig,ax=plt.subplots(1,n,figsize=(17,5))
-# fig.suptitle("YOUR FAVORITE BOOKS",fontsize=40,color="salmon")
-    
-# for i in range(n):
-#   url=new_df.loc[new_df["Book-Title"]==user_choice_df["Book-Title"].tolist()[i],"Image-URL-L"][:1].values[0]
-#   #img=Image.open(requests.get(url,stream=True).raw)
-#   #ax[i].imshow(img)
-#   ax[i].axis("off")
-#   ax[i].set_title("RATING: {} ".format(round(new_df[new_df["Book-Title"]==user_choice_df["Book-Title"].tolist()[i]]["Book-Rating"].mean(),1)),y=-0.20,color="mediumorchid",fontsize=22)
-#   ax[i].text(0.5,-0.4,user_choice_df["Book-Title"].tolist()[i],horizontalalignment='center',fontsize=10) # affiche le titre du livre 
-#   fig.show()
-
-# user_based_rec=user_based(new_df,user_id)
-# books_for_user=common(new_df,user_based_rec,user_id)
-# books_for_userDF=pd.DataFrame(books_for_user,columns=["Book-Title"])
-
-# fig,ax=plt.subplots(1,5,figsize=(17,5))
-# fig.suptitle("YOU MAY ALSO LIKE THESE BOOKS",fontsize=40,color="mediumseagreen")
-# for i in range(5):
-#   url=new_df.loc[new_df["Book-Title"]==books_for_userDF["Book-Title"].tolist()[i],"Image-URL-L"][:1].values[0]
-#   #img=Image.open(requests.get(url,stream=True).raw)
-#   #ax[i].imshow(img)
-#   ax[i].axis("off")
-#   ax[i].set_title("RATING: {} ".format(round(new_df[new_df["Book-Title"]==books_for_userDF["Book-Title"].tolist()[i]]["Book-Rating"].mean(),1)),y=-0.20,color="mediumorchid",fontsize=22)
-#   ax[i].text(0.5,-0.4,user_choice_df["Book-Title"].tolist()[i],horizontalalignment='center',fontsize=10) # affiche le titre du livre 
-#   fig.show()
-
-
-
-
 if __name__ == "__main__" :
   user_id = sys.argv[1]
   user_id = np.int64(user_id)
-  #user_id=random.choice(new_df["User-ID"].values)
 
   user_choice_df=pd.DataFrame(users_choice(user_id))
   user_favorite=users_choice(user_id)
   n=len(user_choice_df["Book-Title"].values)
 
-
-
-  print("🟦 USER: {} ".format(user_id))
-  print("\n\nYOUR FAVORITE BOOKS\n")
-  # ajout flo
-  user_fav_booklist = user_choice_df["Book-Title"].values
-  for book_title in (user_fav_booklist) :
-    print([get_isbn(book_title) for book_title in user_fav_booklist])
-
-
   user_based_rec=user_based(new_df,user_id)
   books_for_user=common(new_df,user_based_rec,user_id)
   books_for_userDF=pd.DataFrame(books_for_user,columns=["Book-Title"])
 
-
-  print("\n\nYOU MAY ALSO LIKE THESE BOOKS\n")
-  # ajout flo 
   reco = books_for_userDF["Book-Title"].tolist()
-  for book_title in (reco) :
-    print([get_isbn(book_title) for book_title in reco])
+
+  print(', '.join([get_isbn(book_title) for book_title in reco]))
 
