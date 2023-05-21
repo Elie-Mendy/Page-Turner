@@ -23,33 +23,7 @@ nltk.download('punkt')
 
 warnings.filterwarnings('ignore')
 
-books = pd.read_csv(os.path.join(os.getcwd(), 'scripts/Preprocessed_data.csv'))
-
-# copie le DataFrame books
-df = books.copy()
-
-# supprime les lignes qui contiennent des valeurs manquantes 'NaN'
-df.dropna(inplace=True)
-
-# réinitialise l'index du DataFrame après la suppression des lignes.
-df.reset_index(drop=True, inplace=True)
-
-# supprime les colonnes non nécessaires
-df.drop(columns=['Unnamed: 0', 'location',
-                 'img_s', 'img_m', 'city', 'age',
-                 'state', 'Language', 'country',
-                 'year_of_publication'], axis=1, inplace=True)
-
-# nettoie la colonne 'Category'
-df.drop(index=df[df['Category'] == '9'].index, inplace=True)
-df['Category'] = df['Category'].apply(
-    lambda x: re.sub('[\W_]+', ' ', x).strip())
-
-# nettoie la colonne 'rating'
-df.drop(index=df[df['rating'] == 0].index, inplace=True)
-
-# Convertir toutes les valeurs en minuscules
-df['book_title'] = df['book_title'].str.lower()
+df = pd.read_csv(os.path.join(os.getcwd(), 'scripts/Preprocessed_data.csv'))
 
 
 def get_isbn(book_title):
