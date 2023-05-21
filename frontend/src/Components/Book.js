@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 function Book({ book }) {
     const dispatch = useDispatch();
     const volumeInfo = book.volumeInfo;
-
     const isbn_10 =
         volumeInfo.industryIdentifiers &&
         volumeInfo.industryIdentifiers[0].identifier;
@@ -27,12 +26,18 @@ function Book({ book }) {
 
     const [cover, setCover] = useState(googleCover)
 
+    const averageRating = volumeInfo && volumeInfo.averageRating;
+    const ratingsCount = volumeInfo && volumeInfo.ratingsCount;
+
     async function getCoverFromIsbn(isbn) {
         let coverAmazon = new Image();
         let coverUrl = `http://images.amazon.com/images/P/${isbn}.01.LZZZZZZZ.jpg`
         coverAmazon = await axios.get (coverUrl)
         if (coverAmazon.data !== "GIF89a\u0001\u0000\u0001\u0000�\u0001\u0000\u0000\u0000\u0000���!�\u0004\u0001\u0000\u0000\u0001\u0000,\u0000\u0000\u0000\u0000\u0001\u0000\u0001\u0000\u0000\u0002\u0002L\u0001\u0000;") {
             setCover(coverUrl)
+        } 
+        if (!cover) {
+            setCover('https://pick2read.com/assets/images/not_found.png');
         }
     }
 
@@ -58,8 +63,8 @@ function Book({ book }) {
             <Card.Text as="div">
                 <div className="my-3">
                     <Rating
-                        value={4} // TODO Ratin model
-                        text={`${56} reviews`}
+                        value={averageRating}
+                        text={`${ratingsCount} reviews`}
                         color={"#f8e825"}
                     />
                 </div>

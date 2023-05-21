@@ -20,9 +20,9 @@ function BookScreen() {
 
     const bookCover = useSelector((state) => state.bookCover);
     const { isCover } = bookCover;
-
+    const not_found_url = 'https://pick2read.com/assets/images/not_found.png';
+    
     useEffect(() => {
-        console.log("useEffect", match.isbn);
         dispatch(listBooksDetails(match.isbn));
         dispatch(getCoverFromIsbn(match.isbn));
     }, [dispatch, match]);
@@ -48,9 +48,10 @@ function BookScreen() {
                                             ? img
                                             : book &&
                                               book.volumeInfo &&
-                                              book.volumeInfo.imageLinks &&
+                                              book.volumeInfo.imageLinks ?
                                               book.volumeInfo.imageLinks
                                                   .thumbnail
+                                            : not_found_url
                                     }
                                     alt={book.name}
                                     fluid

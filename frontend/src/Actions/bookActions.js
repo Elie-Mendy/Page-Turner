@@ -19,55 +19,51 @@ import {
 export const listBooks = (searchValue=null, searchType=null) => async (dispatch, isbn) => {
     try {
         dispatch({ type: BOOK_LIST_REQUEST });
-        let url;
-        switch(searchType) {
-            case "tab2":
+
+        if (searchType === "tab2" || searchType === "tab3") {
+            // appel du script 
+            const url = searchType === "tab2" ? `/recommandation/${searchValue}`: `/recommandation2/${searchValue}`;
+            const recommandedData = await axios.get(url)
+
+            // recuperation des isbns retourné par le script
+            let isbns = recommandedData.data.stdout;
+            if (isbns) {
+                isbns = recommandedData.data.stdout.split(', ');
+                const requests = [];
+                const recommandedBooks= {kind:"books#volumes", items:[]};
+
+                // preparation des requetes 
+                for (let i = 0; i < isbns.length; i++) {
+                    const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbns[i]}`;
+                    requests.push(axios.get(url));
+                }
                 
-                // appel du script 
-                url = `/recommandation/${searchValue}`
-                const recommandedData = await axios.get(url)
-
-                // recuperation des isbns retourné par le script
-                let isbns = recommandedData.data.stdout;
-                if (isbns) {
-                    isbns = recommandedData.data.stdout.split(', ');
-                    const requests = [];
-                    const recommandedBooks= {kind:"books#volumes", items:[]};
-
-                    // preparation des requetes 
-                    for (let i = 0; i < isbns.length; i++) {
-                        const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbns[i]}`;
-                        requests.push(axios.get(url));
+                // lancement des requetes
+                await axios.all(requests)
+                .then(responses => {
+                    // 
+                    for (let i = 0; i < responses.length; i++) {
+                        recommandedBooks.items.push(responses[i].data.items[0])
                     }
-                    
-                    // lancement des requetes
-                    await axios.all(requests)
-                    .then(responses => {
-                        // 
-                        for (let i = 0; i < responses.length; i++) {
-                            recommandedBooks.items.push(responses[i].data.items[0])
-                        }
-                    })
-                    .catch(error => console.log(error));
+                })
+                .catch(error => console.log(error));
 
-                    // stoquage des resultats dans le redux store
-                    dispatch({
-                        type: BOOK_LIST_SUCCESS,
-                        payload: recommandedBooks,
-                    });
-                } 
-                break;
-            default:
-                // let query = searchValue ? `intitle:${searchValue}` : 'subject:fantasy';
-                // const request = `${API_BOOKS_URL}/volumes?q=${query}&orderBy=newest&caseInsensitive=true&maxResults=40` 
-    
-                // const { data } = await axios.get(request)
-                // console.log('data : ', data)
-                // dispatch({
-                //     type: BOOK_LIST_SUCCESS,
-                //     payload: data,
-                // });
-                break;
+                // stoquage des resultats dans le redux store
+                dispatch({
+                    type: BOOK_LIST_SUCCESS,
+                    payload: recommandedBooks,
+                });
+            } 
+        } else {
+            // let query = searchValue ? `intitle:${searchValue}` : 'subject:fantasy';
+            // const request = `${API_BOOKS_URL}/volumes?q=${query}&orderBy=newest&caseInsensitive=true&maxResults=40` 
+
+            // const { data } = await axios.get(request)
+            // console.log('data : ', data)
+            // dispatch({
+            //     type: BOOK_LIST_SUCCESS,
+            //     payload: data,
+            // });
         }
     } catch (error) {
         dispatch({
