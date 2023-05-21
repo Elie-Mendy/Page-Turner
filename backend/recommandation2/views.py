@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 
 import subprocess
 import os
@@ -8,15 +8,15 @@ from django.conf import settings
 
 
 def trigger_recommandation2(request, user_id):
-    print(os.getcwd())
+    fullpath =  os.getcwd()+"/scripts/reco2.py"
     if not user_id : 
         print('No user_id')
         return JsonResponse({})
     print('user_id', user_id)
     execution_output = subprocess.run(
         [
-            "python",
-            os.path.join(os.getcwd(), "scripts/reco2.py"),
+            "python3",
+            fullpath,
             user_id
         ],
         stdout=subprocess.PIPE,
