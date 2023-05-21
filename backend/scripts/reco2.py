@@ -2,6 +2,7 @@
 # -- coding: utf-8 --
 
 import os
+import sys
 import warnings
 warnings.filterwarnings("ignore")
 import pandas as pd
@@ -138,7 +139,7 @@ def common(new_df,user,user_id):
     books=y.loc[~y["Book-Title"].isin(x["Book-Title"]),:] # 
     books=books.sort_values(["Book-Rating"],ascending=False)[0:5]
     recommend_books.extend(books["Book-Title"].values)
-      
+  
   return recommend_books[0:5]
 
 
@@ -194,7 +195,10 @@ def common(new_df,user,user_id):
 
 
 if __name__ == "__main__" :
-  user_id=random.choice(new_df["User-ID"].values)
+  user_id = sys.argv[1]
+  user_id = np.int64(user_id)
+  #user_id=random.choice(new_df["User-ID"].values)
+
   user_choice_df=pd.DataFrame(users_choice(user_id))
   user_favorite=users_choice(user_id)
   n=len(user_choice_df["Book-Title"].values)
@@ -219,3 +223,4 @@ if __name__ == "__main__" :
   reco = books_for_userDF["Book-Title"].tolist()
   for book_title in (reco) :
     print([get_isbn(book_title) for book_title in reco])
+
