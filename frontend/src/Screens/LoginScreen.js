@@ -56,12 +56,12 @@ function LoginScreen() {
                 </Form.Group>
 
                 <Button type="submit" variant="primary">
-                    Sign In
+                    Connexion
                 </Button>
             </Form>
             <Row className="py-3">
                 <Col>
-                    New Customer?{" "}
+                    Nouveau compte ?{" "}
                     <Link
                         to={
                             redirect
@@ -69,7 +69,7 @@ function LoginScreen() {
                                 : "/register"
                         }
                     >
-                        Resister
+                        S'enregistrer
                     </Link>
                 </Col>
             </Row>
