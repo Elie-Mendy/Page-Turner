@@ -49,12 +49,12 @@ function Book({ book }) {
 
     return (
         <Card className="my-3 p-3">
-            <Link to={`/books/${isbn}`}>
+            <Link to={`/books/${isbn}`} target="_blank">
                 <Card.Img src={cover} />
             </Link>
 
             <Card.Body>
-                <Link to={`/books/${isbn}`}>
+                <Link to={`/books/${isbn}`} target="_blank">
                     <Card.Title as="div">
                         <strong>{title}</strong>
                     </Card.Title>

@@ -12,11 +12,6 @@ const ProfileUser = () => {
                 <ListGroup variant="flush">
                     <ListGroup.Item>
                         <ProfilPost />
-                        <ProfilPost />
-                        <ProfilPost />
-                        <ProfilPost />
-                        <ProfilPost />
-                        <ProfilPost />
                     </ListGroup.Item>
                 </ListGroup>
             </Col>

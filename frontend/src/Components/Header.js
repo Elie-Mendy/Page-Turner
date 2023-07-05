@@ -18,15 +18,15 @@ function Header() {
 
     return (
         <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
-            <Container>
+            <Container className='d-flex justify-content-between'>
                 <LinkContainer to="/">
                     <Navbar.Brand>Page Turner</Navbar.Brand>
                 </LinkContainer>
                 <Navbar.Toggle aria-controls="navbarScroll" />
-                <Navbar.Collapse id="navbarScroll">
+                <Navbar.Collapse className="justify-content-end" id="navbarScroll">
                     <Nav
                         className="mr-auto"
-                        style={{ maxHeight: "100px" }}
+                        style={{ maxHeight: "100px"}}
                         navbarScroll
                     >
                         {/* <LinkContainer to="/cart">
@@ -35,13 +35,13 @@ function Header() {
                         {userInfo ? (
                             <NavDropdown title={userInfo.name} id="username">
                                 <LinkContainer to="/profile">
-                                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                                    <NavDropdown.Item>Profil</NavDropdown.Item>
                                 </LinkContainer>
                                 <LinkContainer to="/infos-profile">
-                                    <NavDropdown.Item>Infos</NavDropdown.Item>
+                                    <NavDropdown.Item>Informations</NavDropdown.Item>
                                 </LinkContainer>
                                 <NavDropdown.Item onClick={logOutHandler}>
-                                    Logout
+                                    Se déconnecter
                                 </NavDropdown.Item>
                             </NavDropdown>
                         ) : (

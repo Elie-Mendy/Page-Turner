@@ -31,7 +31,7 @@ export function HomeScreenContextProvider({ children }) {
     const handleSearchType = (searchType) => {
         switch (searchType) {
             case "tab1":
-                setPlaceholder("Livres les plus récents");
+                setPlaceholder("Recherche des livres les plus récents");
                 break;
             case "tab2":
                 setPlaceholder("Recherche par similarité");

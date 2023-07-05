@@ -24,7 +24,7 @@ const HorizontalMenu = () => {
             <Nav variant="pills" className="horizontal-menu">
                 <Nav.Item>
                     <Nav.Link eventKey="tab1">
-                        <FontAwesomeIcon icon={faHome} /> Profile
+                        <FontAwesomeIcon icon={faHome} /> Profil
                     </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>

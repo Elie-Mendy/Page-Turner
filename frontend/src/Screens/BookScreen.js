@@ -29,9 +29,6 @@ function BookScreen() {
 
     return (
         <div>
-            <Link to="/" className="btn btn-light my-3">
-                Go Back
-            </Link>
             {loading ? (
                 <Loader />
             ) : error ? (
