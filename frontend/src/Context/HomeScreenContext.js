@@ -6,7 +6,7 @@ export const HomeScreenContext = createContext();
 
 export function HomeScreenContextProvider({ children }) {
     const [searchType, setSearchType] = useState(1);
-    const [placeholder, setPlaceholder] = useState("Livres les plus récents");
+    const [placeholder, setPlaceholder] = useState("Search for recent books");
     const [searchValue, setSearchValue] = useState("");
 
     const handleInputChange = (event) => {   
