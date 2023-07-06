@@ -18,7 +18,7 @@ import nltk
 from nltk.corpus import stopwords
 
 
-# ouverture des dataset
+# lecture des dataset
 books=pd.read_csv(os.path.join(os.getcwd(), "scripts/Books.csv"))
 ratings=pd.read_csv(os.path.join(os.getcwd(), "scripts/Ratings.csv"))
 users=pd.read_csv(os.path.join(os.getcwd(), "scripts/Users.csv"))
@@ -42,13 +42,13 @@ def get_isbn(book_title) :
 
 
 """------------------------------------------------------------ PREAPARE CALCUL -------------------------------------------------------"""
-new_df=df[df['User-ID'].map(df['User-ID'].value_counts()) > 200]  # Drop users who vote less than 200 times.
+new_df=df[df['User-ID'].map(df['User-ID'].value_counts()) > 200]  # supprime le sutilisateurs qui ont votés moins de 200 fois.
 users_pivot=new_df.pivot_table(index=["User-ID"],columns=["Book-Title"],values="Book-Rating") # table pivot qui contient les évaluations des utilisateurs pour chaque livre.
 users_pivot.fillna(0,inplace=True)
 
 # Trouve les 5 livres préférés d'un utilisateur donné
 def users_choice(id): 
-  users_fav=new_df[new_df["User-ID"]==id].sort_values(["Book-Rating"],ascending=False)[0:5] #elle trie ces lignes par ordre décroissant de la note de livre (Book-Rating) et ne garde que les 5 premières lignes correspondantes aux 5 livres préférés de l'utilisateur
+  users_fav=new_df[new_df["User-ID"]==id].sort_values(["Book-Rating"],ascending=False)[0:5] # elle trie ces lignes par ordre décroissant de la note de livre (Book-Rating) et ne garde que les 5 premières lignes correspondantes aux 5 livres préférés de l'utilisateur
   return users_fav
 
 
