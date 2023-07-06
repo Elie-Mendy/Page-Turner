@@ -5,8 +5,8 @@ function ProfilAbout() {
   return (
     <>
       <Card className="my-3 p-3 ">
-        <Card.Title>Current reading</Card.Title>
-        <Card.Img src="https://picsum.photos/91/139" />
+        <Card.Title>Currently reading</Card.Title>
+        <Card.Img src="https://www.picclickimg.com/EE4AAOSwOkNkWkqM/JRR-Tolkien-The-Hobbit-Graphic-Novel-Poche-Lord.webp" />
       </Card>
       <Card className="my-3 p-3 ">
         <Card.Body>
