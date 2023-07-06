@@ -15,7 +15,7 @@ function TabsExample() {
         <Tab.Container activeKey={activeTab} onSelect={handleTabSelect}>
             <Nav variant="pills">
                 <Nav.Item>
-                    <Nav.Link eventKey="tab1">Livres récents</Nav.Link>
+                    <Nav.Link eventKey="tab1">Latest Books</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                     <Nav.Link eventKey="tab2">Recommandation 1</Nav.Link>

@@ -40,7 +40,7 @@ function RegisterScreen() {
 
     return (
         <FormContainer>
-            <h1>Sign in</h1>
+            <h1>Register</h1>
             {message && <Message variant="danger">{message}</Message>}
             {error && <Message variant="danger">{error}</Message>}
             {loading && <Loader />}
@@ -94,7 +94,7 @@ function RegisterScreen() {
             </Form>
             <Row className="py-3">
                 <Col>
-                    Have an Account ?{" "}
+                    Already a member ?{" "}
                     <Link
                         to={redirect ? `/login?redirect=${redirect}` : "/login"}
                     >

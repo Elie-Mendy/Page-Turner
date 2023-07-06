@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Nav, Tab, TabContent } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faEnvelope, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faEnvelope, faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { FaBeer } from 'react-icons/fa'
 
 import ProfileUser from "./ProfileUser";
 import Recommandation2 from "./Recommandation2";
@@ -24,12 +25,17 @@ const HorizontalMenu = () => {
             <Nav variant="pills" className="horizontal-menu">
                 <Nav.Item>
                     <Nav.Link eventKey="tab1">
-                        <FontAwesomeIcon icon={faHome} /> Profil
+                        <FontAwesomeIcon icon={faHome} /> Profile
                     </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                     <Nav.Link eventKey="tab2">
                         <FontAwesomeIcon icon={faUser} /> Blog
+                    </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link>
+                        <FontAwesomeIcon icon={faUsers} /> Friends
                     </Nav.Link>
                 </Nav.Item>
             </Nav>

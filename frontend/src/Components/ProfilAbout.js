@@ -5,12 +5,12 @@ function ProfilAbout() {
   return (
     <>
       <Card className="my-3 p-3 ">
-        <Card.Title>Lecture en cours</Card.Title>
+        <Card.Title>Current reading</Card.Title>
         <Card.Img src="https://picsum.photos/91/139" />
       </Card>
       <Card className="my-3 p-3 ">
         <Card.Body>
-          <Card.Title>A propos</Card.Title>
+          <Card.Title>About</Card.Title>
           <br></br>
           <Card.Text>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

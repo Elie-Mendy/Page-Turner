@@ -12,46 +12,46 @@ function ProfilPost() {
   return (
     <ListGroup variant="flush">
       <ListGroup.Item>
-        <strong>Le seigneur des anneaux - Intégrale</strong>
+        <strong>The lord of the rings</strong>
         <br />
         <p>
-          Description du livre : Lorem ipsum dolor sit amet, consectetur
+          Description : Lorem ipsum dolor sit amet, consectetur
           adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua.
         </p>
       </ListGroup.Item>
       <ListGroup.Item>
-        <strong>L'étranger</strong>
+        <strong>The stranger</strong>
         <br />
         <p>
-          Description du livre : Lorem ipsum dolor sit amet, consectetur
+          Description : Lorem ipsum dolor sit amet, consectetur
           adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua.
         </p>
       </ListGroup.Item>
       <ListGroup.Item>
-        <strong>La horde du contrevent</strong>
+        <strong>Perfume</strong>
         <br />
         <p>
-          Description du livre : Lorem ipsum dolor sit amet, consectetur
+          Description : Lorem ipsum dolor sit amet, consectetur
           adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua.
         </p>
       </ListGroup.Item>
       <ListGroup.Item>
-        <strong>La petit prince</strong>
+        <strong>The little prince</strong>
         <br />
         <p>
-          Description du livre : Lorem ipsum dolor sit amet, consectetur
+          Description : Lorem ipsum dolor sit amet, consectetur
           adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua.
         </p>
       </ListGroup.Item>
       <ListGroup.Item>
-        <strong>Les fleurs du mal</strong>
+        <strong>Don Juan</strong>
         <br />
         <p>
-          Description du livre : Lorem ipsum dolor sit amet, consectetur
+          Description : Lorem ipsum dolor sit amet, consectetur
           adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua.
         </p>
@@ -60,7 +60,7 @@ function ProfilPost() {
         <strong>Dune</strong>
         <br />
         <p>
-          Description du livre : Lorem ipsum dolor sit amet, consectetur
+          Description : Lorem ipsum dolor sit amet, consectetur
           adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua.
         </p>
