@@ -82,7 +82,7 @@ function BookScreen() {
                     </Row>
                 )
             )}
-            <Comment/>
+            <Comment isbn={match.isbn}/>
         </div>
     );
 }

@@ -3,44 +3,40 @@ import { Card, InputGroup, Form } from "react-bootstrap";
 import axios from "axios";
 import Loader from "../Components/Loader";
 import Message from "../Components/Message";
+import moment from "moment";
+import { useSelector } from "react-redux";
 
-const commentData = [
-  {
-    id: 1,
-    pseudo: "User 1",
-    date: "01/08/2023",
-    commentaire:
-      "Commentaire Commentaire Commentaire Commentaire Commentaire 1",
-  },
-  {
-    id: 2,
-    pseudo: "User 2",
-    date: "02/08/2023",
-    commentaire:
-      "Commentaire Commentaire Commentaire Commentaire Commentaire 2",
-  },
-  {
-    id: 3,
-    pseudo: "User 3",
-    date: "03/08/2023",
-    commentaire:
-      "Commentaire Commentaire Commentaire Commentaire Commentaire 3",
-  },
-];
-
-function Comment() {
+function Comment({ isbn }) {
   const [commentList, setCommentList] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const isbn = 9780590353403;
+  const [commentInputValue, setCommentInputValue] = useState("");
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const handleClick = async () => {
+    console.log(userInfo.id)
+    try {
+      const response = await axios.post(`http://127.0.0.1:8000/comments/`, {
+        content: commentInputValue,
+        isbn: isbn,
+        user : {id:userInfo.id},
+      });
+      fetchData()
+      console.log(response);
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   const fetchData = async () => {
     try {
       const response = await axios.get(
         `http://127.0.0.1:8000/comments/${isbn}`
       );
-      console.log(response.data);
       setCommentList(response.data);
+      console.log(response.data);
       setLoading(false);
     } catch (error) {
       setError("Erreur pour récupérer la donnée");
@@ -60,7 +56,7 @@ function Comment() {
         <Card style={{ backgroundColor: "#d4d4d4", boxShadow: "2px" }}>
           <h3>COMMENTAIRES</h3>
           <div className="row">
-            {commentData.map((comment) => (
+            {commentList.map((comment) => (
               <div key={comment.id} className="col-md-12">
                 <Card
                   style={{
@@ -79,9 +75,11 @@ function Comment() {
                             src="https://i.pinimg.com/564x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg"
                           />
                           <div>
-                            <Card.Title>{comment.pseudo}</Card.Title>
+                            <Card.Title>{comment.user.name}</Card.Title>
                             <Card.Subtitle className="mb-2 text-muted">
-                              {comment.date}
+                              {moment(comment.created_at)
+                                .local()
+                                .format("YYYY-MM-DD HH:mm")}
                             </Card.Subtitle>
                           </div>
                         </div>
@@ -90,7 +88,7 @@ function Comment() {
                   </div>
                   <div>
                     <Card.Body>
-                      <Card.Text>{comment.commentaire}</Card.Text>
+                      <Card.Text>{comment.content}</Card.Text>
                     </Card.Body>
                   </div>
                 </Card>
@@ -105,22 +103,6 @@ function Comment() {
               marginBottom: "1.5rem",
             }}
           >
-            <div className="row">
-              <div className="col-4">
-                <Card.Header style={{ backgroundColor: "white" }}>
-                  <div class="d-flex align-items-center">
-                    <Card.Img
-                      style={{ width: "6rem", marginRight:"1.5rem" }}
-                      variant="top"
-                      src="https://i.pinimg.com/564x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg"
-                    />
-
-                    <Card.Title>Pseudo</Card.Title>
-
-                  </div>
-                </Card.Header>
-              </div>
-            </div>
             <div>
               <Card.Body>
                 <div class="form-floating">
@@ -129,8 +111,17 @@ function Comment() {
                     placeholder="Leave a comment here"
                     id="floatingTextarea2"
                     style={{ height: "100px" }}
+                    value={commentInputValue}
+                    onChange={(e) => setCommentInputValue(e.target.value)}
                   ></textarea>
                   <label for="floatingTextarea2">Votre commentaire</label>
+                  <button
+                    type="button"
+                    class="btn btn-light mt-4"
+                    onClick={handleClick}
+                  >
+                    Poster
+                  </button>
                 </div>
               </Card.Body>
             </div>

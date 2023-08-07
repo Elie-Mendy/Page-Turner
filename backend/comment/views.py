@@ -40,8 +40,10 @@ class CommentView(APIView):
             serializer = CommentSerializer(comments, many=True)
             return Response(serializer.data)
     def post(self, request):
+        print("REQUEST ==>", request.data)
         serializer = CommentSerializer(data=request.data, partial=True)
         if serializer.is_valid():
+            print("SERIALISER IS VALID")
             content = serializer.validated_data.get('content')
             if 'gros_mot' in content:
                 raise serializers.ValidationError("Attention. Le commentaire contient un gros mot.")
