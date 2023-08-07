@@ -8,6 +8,8 @@ import { listBooksDetails, getCoverFromIsbn } from "../Actions/bookActions";
 
 import Loader from "../Components/Loader";
 import Message from "../Components/Message";
+import Comment from "../Components/Comment";
+
 
 function BookScreen() {
     const match = useParams();
@@ -80,6 +82,7 @@ function BookScreen() {
                     </Row>
                 )
             )}
+            <Comment/>
         </div>
     );
 }
