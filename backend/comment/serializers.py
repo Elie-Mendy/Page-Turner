@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from comment.models import Comment
-from base.serializers import UserSerializer   
+from base.serializers import UserSerializer 
+from base.models import User
 
 class CommentSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     content = serializers.CharField(max_length=180)
 
     class Meta:

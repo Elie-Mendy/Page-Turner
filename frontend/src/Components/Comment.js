@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, InputGroup, Form } from "react-bootstrap";
+import { Card  } from "react-bootstrap";
 import axios from "axios";
 import Loader from "../Components/Loader";
 import Message from "../Components/Message";
@@ -16,17 +16,17 @@ function Comment({ isbn }) {
   const { userInfo } = userLogin;
 
   const handleClick = async () => {
-    console.log(userInfo.id)
+    console.log("ID DE MON USER ==>", userInfo.id);
     try {
       const response = await axios.post(`http://127.0.0.1:8000/comments/`, {
         content: commentInputValue,
         isbn: isbn,
-        user : {id:userInfo.id},
+        user: { id: userInfo.id },
       });
-      fetchData()
+      fetchData();
       console.log(response);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -75,7 +75,7 @@ function Comment({ isbn }) {
                             src="https://i.pinimg.com/564x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg"
                           />
                           <div>
-                            <Card.Title>{comment.user.name}</Card.Title>
+                            <Card.Title>Fake it</Card.Title>
                             <Card.Subtitle className="mb-2 text-muted">
                               {moment(comment.created_at)
                                 .local()

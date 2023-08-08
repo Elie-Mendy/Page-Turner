@@ -41,7 +41,11 @@ class CommentView(APIView):
             return Response(serializer.data)
     def post(self, request):
         print("REQUEST ==>", request.data)
-        serializer = CommentSerializer(data=request.data, partial=True)
+        user_id = request.data['user']['id']
+        isbn = request.data['isbn']  # Obtient l'ISBN à partir des paramètres d'URL
+        content = request.data['content']  # Obtient le contenu à partir des données de la requête
+        
+        serializer = CommentSerializer(data={'user': user_id, 'isbn': isbn, 'content': content})
         if serializer.is_valid():
             print("SERIALISER IS VALID")
             content = serializer.validated_data.get('content')
