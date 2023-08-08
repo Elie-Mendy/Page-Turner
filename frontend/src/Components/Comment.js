@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Card  } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import axios from "axios";
 import Loader from "../Components/Loader";
 import Message from "../Components/Message";
 import moment from "moment";
 import { useSelector } from "react-redux";
+import Alert from "react-bootstrap/Alert";
+import { RxCross2 } from "react-icons/rx";
 
 function Comment({ isbn }) {
   const [commentList, setCommentList] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [errorFetchData, setErrorFetchData] = useState("");
+  const [errorBadComment, setErrorBadComment] = useState("");
   const [commentInputValue, setCommentInputValue] = useState("");
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -17,6 +20,7 @@ function Comment({ isbn }) {
 
   const handleClick = async () => {
     console.log("ID DE MON USER ==>", userInfo.id);
+    setErrorBadComment("");
     try {
       const response = await axios.post(`http://127.0.0.1:8000/comments/`, {
         content: commentInputValue,
@@ -25,8 +29,13 @@ function Comment({ isbn }) {
       });
       fetchData();
       console.log(response);
+      setCommentInputValue("");
     } catch (error) {
-      console.log(error);
+      if (!commentInputValue) {
+        setErrorBadComment("Ce commentaire est vide");
+      } else {
+        setErrorBadComment("Ce commentaire contient 'gros_mot'");
+      }
     }
   };
 
@@ -39,7 +48,7 @@ function Comment({ isbn }) {
       console.log(response.data);
       setLoading(false);
     } catch (error) {
-      setError("Erreur pour récupérer la donnée");
+      setErrorFetchData("Erreur pour récupérer la donnée");
       setLoading(false);
     }
   };
@@ -51,7 +60,7 @@ function Comment({ isbn }) {
   return (
     <>
       {loading && <Loader />}
-      {error && <Message variant="danger">{error}</Message>}
+      {errorFetchData && <Message variant="danger">{errorFetchData}</Message>}
       {commentList && (
         <Card style={{ backgroundColor: "#d4d4d4", boxShadow: "2px" }}>
           <h3>COMMENTAIRES</h3>
@@ -67,6 +76,9 @@ function Comment({ isbn }) {
                 >
                   <div className="row">
                     <div className="col-4">
+                      <Button variant="outline-secondary">
+                        <RxCross2 />
+                      </Button>
                       <Card.Header style={{ backgroundColor: "white" }}>
                         <div class="d-flex align-items-center">
                           <Card.Img
@@ -122,6 +134,9 @@ function Comment({ isbn }) {
                   >
                     Poster
                   </button>
+                  {errorBadComment && (
+                    <Alert variant="danger">{errorBadComment}</Alert>
+                  )}
                 </div>
               </Card.Body>
             </div>
