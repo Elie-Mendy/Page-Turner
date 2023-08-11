@@ -6,6 +6,7 @@ class Comment(models.Model):
     isbn = models.IntegerField(blank=False)
     content = models.CharField(max_length=180)
     created_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(default=None, null=True)
 
 def __str__(self):
     return f"{self.user.username} : {self.content[:35]}... {self.created_at}"

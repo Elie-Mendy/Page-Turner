@@ -34,7 +34,7 @@ function Comment({ isbn }) {
       if (!commentInputValue) {
         setErrorBadComment("Ce commentaire est vide");
       } else {
-        setErrorBadComment("Ce commentaire contient 'gros_mot'");
+        setErrorBadComment("Erreur à l'enregistrement du commentaire");
       }
     }
   };
@@ -53,6 +53,19 @@ function Comment({ isbn }) {
     }
   };
 
+  const deleteComment = async (commentId) => {
+    console.log("ID DE MON COMMENT ==>", commentId);
+    try {
+      const response = await axios.patch(`http://127.0.0.1:8000/comments/`, {
+        id: commentId,
+      });
+      fetchData();
+      console.log(response);
+    } catch (error) {
+      console.log("erreur de suppression", error);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -65,47 +78,56 @@ function Comment({ isbn }) {
         <Card style={{ backgroundColor: "#d4d4d4", boxShadow: "2px" }}>
           <h3>COMMENTAIRES</h3>
           <div className="row">
-            {commentList.map((comment) => (
-              <div key={comment.id} className="col-md-12">
-                <Card
-                  style={{
-                    width: "100%",
-                    maxwidth: "500px",
-                    marginBottom: "1.5rem",
-                  }}
-                >
-                  <div className="row">
-                    <div className="col-4">
-                      <Button variant="outline-secondary">
-                        <RxCross2 />
-                      </Button>
-                      <Card.Header style={{ backgroundColor: "white" }}>
-                        <div class="d-flex align-items-center">
-                          <Card.Img
-                            style={{ width: "6rem", marginRight: "1.5rem" }}
-                            variant="top"
-                            src="https://i.pinimg.com/564x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg"
-                          />
-                          <div>
-                            <Card.Title>Fake it</Card.Title>
-                            <Card.Subtitle className="mb-2 text-muted">
-                              {moment(comment.created_at)
-                                .local()
-                                .format("YYYY-MM-DD HH:mm")}
-                            </Card.Subtitle>
-                          </div>
+            {commentList.map((comment) => {
+              if (!comment.deleted_at) {
+                return (
+                  <div key={comment.id} className="col-md-12">
+                    <Card
+                      style={{
+                        width: "100%",
+                        maxwidth: "500px",
+                        marginBottom: "1.5rem",
+                      }}
+                    >
+                      <div className="row">
+                        <div className="col-12">
+                          <Card.Header style={{ backgroundColor: "white" }}>
+                            <div class="d-flex align-items-center">
+                              <Card.Img
+                                style={{ width: "6rem", marginRight: "1.5rem" }}
+                                variant="top"
+                                src="https://i.pinimg.com/564x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg"
+                              />
+                              <div>
+                                <Card.Title>{comment.user_fullname}</Card.Title>
+                                <Card.Subtitle className="mb-2 text-muted">
+                                  {moment(comment.created_at)
+                                    .local()
+                                    .format("YYYY-MM-DD HH:mm")}
+                                </Card.Subtitle>
+                              </div>
+                              <div
+                                type="button"
+                                class="btn btn-light justify-self-end rounded-circle"
+                                variant="outline-secondary"
+                                onClick={() => deleteComment(comment.id)}
+                              >
+                                <RxCross2 />
+                              </div>
+                            </div>
+                          </Card.Header>
                         </div>
-                      </Card.Header>
-                    </div>
+                      </div>
+                      <div>
+                        <Card.Body>
+                          <Card.Text>{comment.content}</Card.Text>
+                        </Card.Body>
+                      </div>
+                    </Card>
                   </div>
-                  <div>
-                    <Card.Body>
-                      <Card.Text>{comment.content}</Card.Text>
-                    </Card.Body>
-                  </div>
-                </Card>
-              </div>
-            ))}
+                );
+              }
+            })}
           </div>
           <h3>VOTRE COMMENTAIRE</h3>
           <Card
