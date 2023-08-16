@@ -18,17 +18,34 @@ function Comment({ isbn }) {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const handleClick = async () => {
+  const postComment = async () => {
     console.log("ID DE MON USER ==>", userInfo.id);
     setErrorBadComment("");
     try {
-      const response = await axios.post(`http://127.0.0.1:8000/comments/`, {
+      const { data } = await axios.post(`http://127.0.0.1:8000/comments/`, {
         content: commentInputValue,
         isbn: isbn,
         user: { id: userInfo.id },
       });
       fetchData();
-      console.log(response);
+      if (data.toxic > 0.5) {
+        let message = "Ce commentaire est toxique";
+      
+        if (data.obscene) {
+          message += "\n\t-contient des propos obscènes";
+        }
+        if (data.threat) {
+          message += "\n\t-contient des propos violents";
+        }
+        if (data.insult) {
+          message += "\n\t-contient des propos injurieux";
+        }
+        if (data.identity_hate) {
+          message += "\n\t-contient des propos racistes";
+        }
+      
+        setErrorBadComment(message);
+      }
       setCommentInputValue("");
     } catch (error) {
       if (!commentInputValue) {
@@ -152,7 +169,7 @@ function Comment({ isbn }) {
                   <button
                     type="button"
                     class="btn btn-light mt-4"
-                    onClick={handleClick}
+                    onClick={postComment}
                   >
                     Poster
                   </button>
