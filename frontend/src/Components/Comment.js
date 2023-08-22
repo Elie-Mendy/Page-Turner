@@ -19,9 +19,13 @@ function Comment({ isbn }) {
   const { userInfo } = userLogin;
 
   const postComment = async () => {
-    console.log("ID DE MON USER ==>", userInfo.id);
     setErrorBadComment("");
     try {
+      if (!userInfo) {
+        setErrorBadComment("Vous devez être connecté pour commenter");
+        return;
+      }
+
       const { data } = await axios.post(`http://127.0.0.1:8000/comments/`, {
         content: commentInputValue,
         isbn: isbn,
@@ -29,21 +33,7 @@ function Comment({ isbn }) {
       });
       fetchData();
       if (data.toxic > 0.5) {
-        let message = "Ce commentaire est toxique";
-      
-        if (data.obscene) {
-          message += "\n\t-contient des propos obscènes";
-        }
-        if (data.threat) {
-          message += "\n\t-contient des propos violents";
-        }
-        if (data.insult) {
-          message += "\n\t-contient des propos injurieux";
-        }
-        if (data.identity_hate) {
-          message += "\n\t-contient des propos racistes";
-        }
-      
+        let message = "This comment is toxic, you're not allowed to post it";  
         setErrorBadComment(message);
       }
       setCommentInputValue("");
@@ -62,7 +52,6 @@ function Comment({ isbn }) {
         `http://127.0.0.1:8000/comments/${isbn}`
       );
       setCommentList(response.data);
-      console.log(response.data);
       setLoading(false);
     } catch (error) {
       setErrorFetchData("Erreur pour récupérer la donnée");
@@ -71,15 +60,13 @@ function Comment({ isbn }) {
   };
 
   const deleteComment = async (commentId) => {
-    console.log("ID DE MON COMMENT ==>", commentId);
     try {
       const response = await axios.patch(`http://127.0.0.1:8000/comments/`, {
         id: commentId,
       });
       fetchData();
-      console.log(response);
     } catch (error) {
-      console.log("erreur de suppression", error);
+      alert("erreur de suppression", error);
     }
   };
 
@@ -95,6 +82,28 @@ function Comment({ isbn }) {
         <Card style={{ backgroundColor: "#d4d4d4", boxShadow: "2px" }}>
           <h3>COMMENTAIRES</h3>
           <div className="row">
+            {commentList.length === 0 && (
+              <div className="col-md-12">
+                <Card
+                  
+                  style={{
+                    width: "100%",
+                    maxwidth: "500px",
+                    marginBottom: "1.5rem",
+                  }}
+                >
+                  <div>
+                    <Card.Body>
+                      <Card.Text>
+                        Aucun commentaire pour ce livre pour le moment
+                      </Card.Text>
+                    </Card.Body>
+                  </div>
+                </Card>
+              </div>
+            )
+
+                  }
             {commentList.map((comment) => {
               if (!comment.deleted_at) {
                 return (
@@ -109,7 +118,7 @@ function Comment({ isbn }) {
                       <div className="row">
                         <div className="col-12">
                           <Card.Header style={{ backgroundColor: "white" }}>
-                            <div class="d-flex align-items-center">
+                            <div className="d-flex align-items-center">
                               <Card.Img
                                 style={{ width: "6rem", marginRight: "1.5rem" }}
                                 variant="top"
@@ -125,7 +134,7 @@ function Comment({ isbn }) {
                               </div>
                               <div
                                 type="button"
-                                class="btn btn-light justify-self-end rounded-circle"
+                                className="btn btn-light justify-self-end rounded-circle"
                                 variant="outline-secondary"
                                 onClick={() => deleteComment(comment.id)}
                               >
@@ -156,19 +165,19 @@ function Comment({ isbn }) {
           >
             <div>
               <Card.Body>
-                <div class="form-floating">
+                <div className="form-floating">
                   <textarea
-                    class="form-control"
+                    className="form-control"
                     placeholder="Leave a comment here"
                     id="floatingTextarea2"
                     style={{ height: "100px" }}
                     value={commentInputValue}
                     onChange={(e) => setCommentInputValue(e.target.value)}
                   ></textarea>
-                  <label for="floatingTextarea2">Votre commentaire</label>
+                  <label className="floatingTextarea2">Votre commentaire</label>
                   <button
                     type="button"
-                    class="btn btn-light mt-4"
+                    className="btn btn-light mt-4"
                     onClick={postComment}
                   >
                     Poster

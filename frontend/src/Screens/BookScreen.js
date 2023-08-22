@@ -10,7 +10,6 @@ import Loader from "../Components/Loader";
 import Message from "../Components/Message";
 import Comment from "../Components/Comment";
 
-
 function BookScreen() {
     const match = useParams();
     const dispatch = useDispatch();
@@ -19,11 +18,14 @@ function BookScreen() {
 
     const bookDetail = useSelector((state) => state.bookDetail);
     const { error, loading, book } = bookDetail;
+    const volumeInfo = book.volumeInfo;
+    const averageRating = volumeInfo && volumeInfo.averageRating;
+    const ratingsCount = volumeInfo && volumeInfo.ratingsCount;
 
     const bookCover = useSelector((state) => state.bookCover);
     const { isCover } = bookCover;
-    const not_found_url = 'https://pick2read.com/assets/images/not_found.png';
-    
+    const not_found_url = "https://pick2read.com/assets/images/not_found.png";
+
     useEffect(() => {
         dispatch(listBooksDetails(match.isbn));
         dispatch(getCoverFromIsbn(match.isbn));
@@ -47,13 +49,12 @@ function BookScreen() {
                                             ? img
                                             : book &&
                                               book.volumeInfo &&
-                                              book.volumeInfo.imageLinks ?
                                               book.volumeInfo.imageLinks
+                                            ? book.volumeInfo.imageLinks
                                                   .thumbnail
                                             : not_found_url
                                     }
                                     alt={book.name}
-                                    fluid
                                 />
                             </Card>
                         </Col>
@@ -64,13 +65,10 @@ function BookScreen() {
                                 </ListGroup.Item>
                                 <ListGroup.Item>
                                     <Rating
-                                        value={book.rating}
-                                        text={`${book.numReviews} reviews`}
+                                        value={averageRating}
+                                        text={`${ratingsCount} reviews`}
                                         color={"#f8e825"}
                                     />
-                                </ListGroup.Item>
-                                <ListGroup.Item>
-                                    Price: ${book.price}
                                 </ListGroup.Item>
                                 <ListGroup.Item>
                                     Description:{" "}
@@ -82,7 +80,7 @@ function BookScreen() {
                     </Row>
                 )
             )}
-            <Comment isbn={match.isbn}/>
+            <Comment isbn={match.isbn} />
         </div>
     );
 }

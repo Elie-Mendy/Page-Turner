@@ -31,7 +31,7 @@ class CommentView(APIView):
     def get(self, request, isbn=None):
         if(isbn is not None):
             try:
-                comments = Comment.objects.filter(isbn=isbn)
+                comments = Comment.objects.filter(isbn=isbn, deleted_at__isnull=True)
                 serializer = CommentSerializer(comments, many=True)
                 return Response(serializer.data)
             except Comment.DoesNotExist:

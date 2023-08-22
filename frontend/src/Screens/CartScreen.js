@@ -62,7 +62,6 @@ function CartScreen() {
                                         <Image
                                             src={item.image}
                                             alt={item.name}
-                                            fluid
                                             rounded
                                         />
                                     </Col>
