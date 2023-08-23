@@ -19,9 +19,9 @@ from nltk.corpus import stopwords
 
 
 # lecture des dataset
-books=pd.read_csv(os.path.join(os.getcwd(), "scripts/Books.csv"))
-ratings=pd.read_csv(os.path.join(os.getcwd(), "scripts/Ratings.csv"))
-users=pd.read_csv(os.path.join(os.getcwd(), "scripts/Users.csv"))
+books=pd.read_csv(os.path.join(sys.argv[2], "scripts/Books.csv"))
+ratings=pd.read_csv(os.path.join(sys.argv[2], "scripts/Ratings.csv"))
+users=pd.read_csv(os.path.join(sys.argv[2], "scripts/Users.csv"))
 
 
 
@@ -61,6 +61,7 @@ def users_choice(id):
 # les cinq ID d'utilisateurs similaires, qui ont des préférences similaires.
 
 def user_based(new_df,id):
+  user_rec=[] # contiendra les identifiants des 5 utilisateurs similaires
   # l'id de l'utilisateur est-il présent dans le dataframe ?
   if id not in new_df["User-ID"].values:
     print("❌ User NOT FOUND ❌")
@@ -81,7 +82,7 @@ def user_based(new_df,id):
     similarity=cosine_similarity(users_pivot)
     similar_users=list(enumerate(similarity[index]))
     similar_users = sorted(similar_users,key = lambda x:x[1],reverse=True)[0:5] # contient les 5 indices des utilisateurs les plus similaires à l'utilisateur, triés par ordre décroissant de similarité.
-    user_rec=[] # contiendra les identifiants des 5 utilisateurs similaires
+    
   
     """
     Pour chaque utilisateur similaire, la fonction récupère toutes les 

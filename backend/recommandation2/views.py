@@ -8,7 +8,7 @@ from django.conf import settings
 
 
 def trigger_recommandation2(request, user_id):
-    fullpath =  os.getcwd()+"/scripts/reco2.py"
+    fullpath =  str(settings.BASE_DIR)+"/scripts/reco2.py"
     if not user_id : 
         print('No user_id')
         return JsonResponse({})
@@ -17,7 +17,8 @@ def trigger_recommandation2(request, user_id):
         [
             "python3",
             fullpath,
-            user_id
+            user_id,
+            settings.BASE_DIR
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

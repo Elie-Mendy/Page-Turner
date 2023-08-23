@@ -23,7 +23,7 @@ nltk.download('punkt')
 
 warnings.filterwarnings('ignore')
 
-df = pd.read_csv(os.path.join(os.getcwd(), 'scripts/Preprocessed_data.csv'))
+df = pd.read_csv(os.path.join(sys.argv[2], 'scripts/Preprocessed_data.csv'))
 
 
 def get_isbn(book_title):

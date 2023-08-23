@@ -2,8 +2,10 @@ import datetime
 import pickle
 import numpy as np
 import tensorflow as tf
+import os
 
 from django.http import JsonResponse
+from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -13,15 +15,19 @@ from rest_framework import serializers
 from base.models import User
 
 # import text vectorization layer
-from_disk = pickle.load(open("./comment/utils/tv_layer.pkl", "rb"))
-vectorizer = tf.keras.layers.TextVectorization.from_config(from_disk['config'])
+# import text vectorization layer
+from_disk = pickle.load(open(
+    str(settings.BASE_DIR) + "/comment/utils/tv_layer.pkl", "rb"))
+vectorizer = tf.keras.layers.TextVectorization.from_config(
+    from_disk['config'])
 
 # vectorizer adaptation with some dummy data (BUG in Keras)
 vectorizer.adapt(tf.data.Dataset.from_tensor_slices(["xyz"]))
 vectorizer.set_weights(from_disk['weights'])
 
 # model instatiation
-model = tf.keras.models.load_model('./comment/utils/newModel.h5')
+model = tf.keras.models.load_model(
+    str(settings.BASE_DIR) + '/comment/utils/newModel.h5')
 
 
 
@@ -42,7 +48,6 @@ class CommentView(APIView):
             return Response(serializer.data)
     
     def post(self, request):
-        print("REQUEST ==>", request.data)
         user_id = request.data['user']["id"]
         user_instance = User.objects.get(id=user_id)
         isbn = request.data['isbn']  # Obtient l'ISBN à partir des paramètres d'URL
@@ -50,20 +55,14 @@ class CommentView(APIView):
         
         serializer = CommentSerializer(data={'user': user_id, 'isbn': isbn, 'content': content})
         if serializer.is_valid():
-            print("SERIALISER IS VALID")
             content = serializer.validated_data.get('content')
 
             # comment checking
             input_str = vectorizer(content)
             results = model.predict(np.expand_dims(input_str,0))[0]
             # Convert from float32 to float64 pour la sérialisation JSON
-            print("RESULT BEFORE : ", results)
-            print("TOXIC BEFORE : ", results[0] > 0.5)
 
             results = results.astype(np.float64)
-            print("RESULT AFTER : ", results)
-            print("TOXIC AFTER : ", results[0] > 0.5)
-
 
             if results[0] < 0.5:
                 serializer.save(user=user_instance)

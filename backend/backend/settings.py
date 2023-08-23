@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     "recommandation2",
     "recommandation",
 ]
-
+DJANGO_SETTINGS_MODULE='backend.settings'
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     
