@@ -22,7 +22,7 @@ function Comment({ isbn }) {
     setErrorBadComment("");
     try {
       if (!userInfo) {
-        setErrorBadComment("Vous devez être connecté pour commenter");
+        setErrorBadComment("You must be connected to post a comment");
         return;
       }
 
@@ -39,9 +39,9 @@ function Comment({ isbn }) {
       setCommentInputValue("");
     } catch (error) {
       if (!commentInputValue) {
-        setErrorBadComment("Ce commentaire est vide");
+        setErrorBadComment("It's impossible to leave an empty comment");
       } else {
-        setErrorBadComment("Erreur à l'enregistrement du commentaire");
+        setErrorBadComment("An error occured while posting your comment");
       }
     }
   };
@@ -80,7 +80,7 @@ function Comment({ isbn }) {
       {errorFetchData && <Message variant="danger">{errorFetchData}</Message>}
       {commentList && (
         <Card style={{ backgroundColor: "#d4d4d4", boxShadow: "2px" }}>
-          <h3>COMMENTAIRES</h3>
+          <h3>Comments</h3>
           <div className="row">
             {commentList.length === 0 && (
               <div className="col-md-12">
@@ -95,7 +95,7 @@ function Comment({ isbn }) {
                   <div>
                     <Card.Body>
                       <Card.Text>
-                        Aucun commentaire pour ce livre pour le moment
+                        No comment yet, be the first to comment
                       </Card.Text>
                     </Card.Body>
                   </div>
@@ -155,7 +155,7 @@ function Comment({ isbn }) {
               }
             })}
           </div>
-          <h3>VOTRE COMMENTAIRE</h3>
+          <h3>Enter a comment</h3>
           <Card
             style={{
               width: "100%",
@@ -174,7 +174,7 @@ function Comment({ isbn }) {
                     value={commentInputValue}
                     onChange={(e) => setCommentInputValue(e.target.value)}
                   ></textarea>
-                  <label className="floatingTextarea2">Votre commentaire</label>
+                  <label className="floatingTextarea2">Leave your comment there 😃</label>
                   <button
                     type="button"
                     className="btn btn-light mt-4"
