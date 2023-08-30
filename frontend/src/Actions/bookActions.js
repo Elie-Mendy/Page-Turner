@@ -60,7 +60,6 @@ export const listBooks = (searchValue=null, searchType=null) => async (dispatch,
             const request = `${API_BOOKS_URL}/volumes?q=${query}&orderBy=newest&caseInsensitive=true&maxResults=40` 
 
             const { data } = await axios.get(request)
-            console.log('data : ', data)
             dispatch({
                 type: BOOK_LIST_SUCCESS,
                 payload: data,
