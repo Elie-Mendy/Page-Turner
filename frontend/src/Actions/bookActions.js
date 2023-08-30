@@ -41,9 +41,10 @@ export const listBooks = (searchValue=null, searchType=null) => async (dispatch,
                 // lancement des requetes
                 await axios.all(requests)
                 .then(responses => {
-                    // 
                     for (let i = 0; i < responses.length; i++) {
-                        recommandedBooks.items.push(responses[i].data.items[0])
+                        if (responses[i].data.items){
+                            recommandedBooks.items.push(responses[i].data.items[0])
+                        }
                     }
                 })
                 .catch(error => console.log(error));
