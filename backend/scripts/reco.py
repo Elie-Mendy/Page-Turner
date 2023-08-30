@@ -40,8 +40,7 @@ def custom_recommender(searchValue):
         rare_books = rating_counts[rating_counts['count'] <= 180].index
         common_books = df[~df['book_title'].isin(rare_books)]
 
-        for book in books:
-            title = books.iloc[0]['book_title']
+        for title in books['book_title'].values:
             if title not in rare_books:
                 book_title = title
                 break
