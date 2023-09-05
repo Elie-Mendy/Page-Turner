@@ -29,9 +29,6 @@ function Header() {
                         style={{ maxHeight: "100px"}}
                         navbarScroll
                     >
-                        {/* <LinkContainer to="/cart">
-              <Nav.Link><i className="fas fa-shopping-cart" /> Cart</Nav.Link>
-            </LinkContainer> */}
                         {userInfo ? (
                             <NavDropdown title={userInfo.name} id="username">
                                 <LinkContainer to="/profile">

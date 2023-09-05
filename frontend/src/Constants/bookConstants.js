@@ -6,6 +6,7 @@ export const API_BOOKS_URL = "https://www.googleapis.com/books/v1"
 export const BOOK_LIST_REQUEST = "BOOK_LIST_REQUEST"
 export const BOOK_LIST_SUCCESS = "BOOK_LIST_SUCCESS"
 export const BOOK_LIST_FAIL = "BOOK_LIST_FAIL"
+export const BOOK_LIST_CLEARED = "BOOK_LIST_CLEARED"
 
 export const BOOK_DETAIL_REQUEST = "BOOK_DETAIL_REQUEST"
 export const BOOK_DETAIL_SUCCESS = "BOOK_DETAIL_SUCCESS"

@@ -2,10 +2,15 @@ import { useState, useContext } from "react";
 import { HomeScreenContext } from "../Context/HomeScreenContext";
 import { Nav, Tab } from "react-bootstrap";
 
+import { clearBookList } from "../Actions/bookActions";
+import { useDispatch } from "react-redux";
+
 function TabsExample() {
+    const dispatch = useDispatch();
     const [activeTab, setActiveTab] = useState("tab1");
     const { handleSearchType, setSearchValue } = useContext(HomeScreenContext);
     const handleTabSelect = (tab) => {
+        dispatch(clearBookList());
         setSearchValue('');
         setActiveTab(tab);
         handleSearchType(tab);

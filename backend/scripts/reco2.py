@@ -63,15 +63,15 @@ def get_similar_users(new_df, user_id):
 
 def get_favourite_books_isbn(user_id):
     """
-    Renvoie les isbns des 5 livres préférés d'un utilisateur.
+    Renvoie les isbns des 4 livres préférés d'un utilisateur.
     
     Args:
     - user_id (int): L'ID de l'utilisateur.
     
     Returns:
-    - List[str]: Les isbns des 5 livres préférés de l'utilisateur.
+    - List[str]: Les isbns des 4 livres préférés de l'utilisateur.
     """
-    df_favorite_books = new_df[new_df["User-ID"] == user_id].sort_values(["Book-Rating"], ascending=False).head(5)
+    df_favorite_books = new_df[new_df["User-ID"] == user_id].sort_values(["Book-Rating"], ascending=False).head(4)
     
     # conversion des isbn pour retourner une liste d'entiers
     return df_favorite_books["ISBN"].tolist()

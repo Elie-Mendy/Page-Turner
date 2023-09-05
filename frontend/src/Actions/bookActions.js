@@ -5,6 +5,7 @@ import {
     BOOK_LIST_REQUEST,
     BOOK_LIST_SUCCESS,
     BOOK_LIST_FAIL,
+    BOOK_LIST_CLEARED,
 
     BOOK_DETAIL_REQUEST,
     BOOK_DETAIL_SUCCESS,
@@ -50,6 +51,7 @@ export const listBooks = (searchValue=null, searchType=null) => async (dispatch,
                 .catch(error => console.log(error));
 
                 // stoquage des resultats dans le redux store
+                console.log("reco", recommandedBooks)
                 dispatch({
                     type: BOOK_LIST_SUCCESS,
                     payload: recommandedBooks,
@@ -73,13 +75,30 @@ export const listBooks = (searchValue=null, searchType=null) => async (dispatch,
     }
 };
 
+export const clearBookList = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: BOOK_LIST_CLEARED,
+            payload: []
+        })
+
+    } catch (error) {
+        dispatch({
+            type: BOOK_DETAIL_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+    }
+}
+
 export const listBooksDetails = (isbn) => async (dispatch) => {
     try {
         dispatch({type : BOOK_DETAIL_REQUEST});
 
         // const request = `${API_BOOKS_URL}/volumes?q=isbn:${isbn}&key=${API_KEY}&maxResults=40`;
         const request = `${API_BOOKS_URL}/volumes?q=isbn:${isbn}&maxResults=40`;
-
+        
         const { data } = await axios.get(request)
         dispatch({
             type: BOOK_DETAIL_SUCCESS,
@@ -94,10 +113,9 @@ export const listBooksDetails = (isbn) => async (dispatch) => {
                 : error.message,
         })
     }
-
-    
-    
 }
+
+
 
 export const getCoverFromIsbn = (isbn) => async (dispatch) => {
     try {

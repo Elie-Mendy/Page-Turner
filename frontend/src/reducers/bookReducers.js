@@ -2,6 +2,7 @@ import {
     BOOK_LIST_REQUEST,
     BOOK_LIST_SUCCESS,
     BOOK_LIST_FAIL,
+    BOOK_LIST_CLEARED,
 
     BOOK_DETAIL_REQUEST,
     BOOK_DETAIL_SUCCESS,
@@ -22,6 +23,9 @@ export const bookListReducer = (state = {books:[]}, action) => {
         
         case BOOK_LIST_FAIL:
             return {loading: false, error: action.payload};
+
+        case BOOK_LIST_CLEARED:
+            return {loading: false, books: action.payload};
         
         default:
             return state;
