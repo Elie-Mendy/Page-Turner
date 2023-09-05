@@ -1,145 +1,150 @@
 #!/usr/bin/python
 # -- coding: utf-8 --
 
+
+# Importation des bibliothèques nécessaires
 import os
 import sys
 import warnings
-warnings.filterwarnings("ignore")
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.metrics.pairwise import cosine_similarity
 import re
-from PIL import Image
-import requests
-import random
-from sklearn.feature_extraction.text import CountVectorizer
-import nltk
-from nltk.corpus import stopwords
 
+# Suppression des avertissements
+warnings.filterwarnings("ignore")
 
-# lecture des dataset
-books=pd.read_csv(os.path.join(sys.argv[2], "scripts/Books.csv"))
-ratings=pd.read_csv(os.path.join(sys.argv[2], "scripts/Ratings.csv"))
-users=pd.read_csv(os.path.join(sys.argv[2], "scripts/Users.csv"))
+# Chargement des datasets
+books = pd.read_csv(os.path.join(sys.argv[2], "scripts/Books.csv"))
+ratings = pd.read_csv(os.path.join(sys.argv[2], "scripts/Ratings.csv"))
+users = pd.read_csv(os.path.join(sys.argv[2], "scripts/Users.csv"))
 
 
 
-"""------------------------------------------------------------ PREPROCESSING -------------------------------------------------------"""
-books_data=books.merge(ratings,on="ISBN") # nouveau dataframe : combine les données des datasets "books" et "ratings" en fonction de leur colonne commune "ISBN"
-df=books_data.copy() # on travaille sur une copie de books_data
-df.dropna(inplace=True) # supprime toutes les lignes contenant des valeurs NaN 
-df.drop(index=df[df["Book-Rating"]==0].index,inplace=True) # supprime toutes les lignes contenant des valeurs 0 dans la col Book-Rating
-df.reset_index(drop=True,inplace=True) # màj des index
-df.drop(columns=["Year-Of-Publication","Image-URL-S","Image-URL-M"],axis=1,inplace=True) # suppression des col inutiles
-df["Book-Title"]=df["Book-Title"].apply(lambda x: re.sub("[\W_]+"," ",x).strip()) # nettoie les titres des livres
+###::::::::::::::::::::::::::::::::::::::::::::::::: FONCTIONS :::::::::::::::::::::::::::::::###
 
 
-
-def get_isbn(book_title) :
-  return df.loc[df['Book-Title'] == book_title].iloc[0][0]
-
-
-
-"""------------------------------------------------------------ PREAPARE CALCUL -------------------------------------------------------"""
-new_df=df[df['User-ID'].map(df['User-ID'].value_counts()) > 200]  # supprime le sutilisateurs qui ont votés moins de 200 fois.
-users_pivot=new_df.pivot_table(index=["User-ID"],columns=["Book-Title"],values="Book-Rating") # table pivot qui contient les évaluations des utilisateurs pour chaque livre.
-users_pivot.fillna(0,inplace=True)
-
-# Trouve les 5 livres préférés d'un utilisateur donné
-def users_choice(id): 
-  users_fav=new_df[new_df["User-ID"]==id].sort_values(["Book-Rating"],ascending=False)[0:5] # elle trie ces lignes par ordre décroissant de la note de livre (Book-Rating) et ne garde que les 5 premières lignes correspondantes aux 5 livres préférés de l'utilisateur
-  return users_fav
-
-
-
-"""------------------------------------------------------------ CALCUL SIMILARITES ENTRE UTILISATEURS ---------------------------------"""
-
-# Recommande des livres à un utilisateur donné en fonction des préférences 
-# d'utilisateurs similaires en utilisant la similarité cosinus. 
-# Cette fonction prend l'ID de l'utilisateur comme entrée et renvoie 
-# les cinq ID d'utilisateurs similaires, qui ont des préférences similaires.
-
-def user_based(new_df,id):
-  user_rec=[] # contiendra les identifiants des 5 utilisateurs similaires
-  # l'id de l'utilisateur est-il présent dans le dataframe ?
-  if id not in new_df["User-ID"].values:
-    print("❌ User NOT FOUND ❌")
-      
-      
-  else:
-    # oui, alors cherche son index le tableau croisé/table pivot qui contient les évaluations de tous les utilisateurs pour tous les livres.
-    index=np.where(users_pivot.index==id)[0][0]
-
-    """ Elle calcule ensuite la similarité de cosinus entre les évaluations de 
-    tous les utilisateurs pour tous les livres à l'aide de la fonction 
-    "cosine_similarity" de la bibliothèque "sklearn". La variable "similarity" 
-    est une matrice carrée de dimensions "n x n" où "n" est le nombre total 
-    d'utilisateurs dans le DataFrame "new_df". La case (i, j) de la matrice 
-    "similarity" contient la similarité de cosinus entre les évaluations 
-    des utilisateurs i et j pour tous les livres.
+def get_isbn(book_title):
     """
-    similarity=cosine_similarity(users_pivot)
-    similar_users=list(enumerate(similarity[index]))
-    similar_users = sorted(similar_users,key = lambda x:x[1],reverse=True)[0:5] # contient les 5 indices des utilisateurs les plus similaires à l'utilisateur, triés par ordre décroissant de similarité.
+    Récupère l'ISBN d'un livre à partir de son titre.
     
-  
+    Args:
+    - book_title (str): Le titre du livre.
+    
+    Returns:
+    - str: L'ISBN du livre.
     """
-    Pour chaque utilisateur similaire, la fonction récupère toutes les 
-    évaluations de ce dernier dans le DataFrame "new_df", puis elle ajoute 
-    l'identifiant de l'utilisateur dans la liste "user_rec". Ainsi, à la fin 
-    de la boucle, la liste "user_rec" contient les identifiants de tous les 
-    utilisateurs similaires à l'utilisateur
+    return df.loc[df['Book-Title'] == book_title].iloc[0][0]
+
+
+def get_similar_users(new_df, user_id):
     """
-    for i in similar_users:
-      data=df[df["User-ID"]==users_pivot.index[i[0]]]
-      user_rec.extend(list(data.drop_duplicates("User-ID")["User-ID"].values))
-      
-  return user_rec
+    Identifie les utilisateurs ayant des goûts similaires à un utilisateur donné en utilisant la similarité cosinus.
+    
+    Args:
+    - new_df (DataFrame): Le dataframe contenant les données des utilisateurs et leurs évaluations.
+    - user_id (int): L'ID de l'utilisateur cible.
+    
+    Returns:
+    - list[int]: Liste des ID des utilisateurs similaires.
+    """
+    user_ids = []
+    if user_id not in new_df["User-ID"].values:
+        print("❌ User NOT FOUND ❌")
+    else:
+        index = np.where(users_pivot.index == user_id)[0][0]
+        similarity = cosine_similarity(users_pivot)
+        similar_users = sorted(list(enumerate(similarity[index])), key=lambda x: x[1], reverse=True)[0:5]
+        for id in similar_users:
+            data = df[df["User-ID"] == users_pivot.index[id[0]]]
+            user_ids.extend(list(data.drop_duplicates("User-ID")["User-ID"].values))
+    return user_ids
 
 
-"""------------------------------------------------------------ SELECTION DES RECOMMANDATIONS ------------------------------------------"""
-
-# La fonction renvoie les 5 premiers titres des livres recommandés pour l'utilisateur
-
-# recommander des livres à un utilisateur donné en fonction des préférences 
-# de ces cinq utilisateurs similaires. Cette fonction prend l'ensemble d'ID 
-# d'utilisateurs similaires et l'ID de l'utilisateur cible et renvoie les 
-# cinq livres recommandés.
-
-
-# "new_df" -- contient les données de l'ensemble des utilisateurs et des livres qu'ils ont évalués.
-# "user" est une liste de "Book-Title" de livres recommandés par d'autres utilisateurs similaires.
-# "user_id" est l'ID de l'utilisateur pour lequel nous voulons trouver des recommandations
-def common(new_df,user,user_id):
-  x=new_df[new_df["User-ID"]==user_id] # stocke toutes les évaluations faites par l'utilisateur
-
-  recommend_books=[] # stockera les recommandations de livres
-  user=list(user)
-  for i in user:
-    y=new_df[(new_df["User-ID"]==i)] # 
-    books=y.loc[~y["Book-Title"].isin(x["Book-Title"]),:] # 
-    books=books.sort_values(["Book-Rating"],ascending=False)[0:10]
-    recommend_books.extend(books["Book-Title"].values)
-  
-  return recommend_books[0:50]
+def get_favourite_books_isbn(user_id):
+    """
+    Renvoie les isbns des 5 livres préférés d'un utilisateur.
+    
+    Args:
+    - user_id (int): L'ID de l'utilisateur.
+    
+    Returns:
+    - List[str]: Les isbns des 5 livres préférés de l'utilisateur.
+    """
+    df_favorite_books = new_df[new_df["User-ID"] == user_id].sort_values(["Book-Rating"], ascending=False).head(5)
+    
+    # conversion des isbn pour retourner une liste d'entiers
+    return df_favorite_books["ISBN"].tolist()
 
 
-"""------------------------------------------------------------ FORMATE AFFICHAGE RESULTATS ------------------------------------------"""
+def get_recommanded_books(new_df, user_ids, user_id):
+    """
+    Recommande des livres à un utilisateur basé sur les préférences d'utilisateurs similaires.
+    
+    Args:
+    - new_df (DataFrame): Le dataframe contenant les données des utilisateurs et leurs évaluations.
+    - user_ids (list): Liste des ID des utilisateurs similaires.
+    - user_id (int): L'ID de l'utilisateur cible.
+    
+    Returns:
+    - list: Liste des isbn des livres recommandés.
+    """
+    x = new_df[new_df["User-ID"] == user_id]
+    recommended_books = []
+    user_ids = list(user_ids)
+    for id in user_ids:
+        y = new_df[(new_df["User-ID"] == id)]
+        books = y.loc[~y["Book-Title"].isin(x["Book-Title"]), :]
+        books = books.sort_values(["Book-Rating"], ascending=False)[0:10]
+        recommended_books.extend(books["Book-Title"].values)
+        
+    return [get_isbn(book_title) for book_title in recommended_books[0:50]]
 
-if __name__ == "__main__" :
-  user_id = sys.argv[1]
-  user_id = np.int64(user_id)
 
-  user_choice_df=pd.DataFrame(users_choice(user_id))
-  user_favorite=users_choice(user_id)
-  n=len(user_choice_df["Book-Title"].values)
 
-  user_based_rec=user_based(new_df,user_id)
-  books_for_user=common(new_df,user_based_rec,user_id)
-  books_for_userDF=pd.DataFrame(books_for_user,columns=["Book-Title"])
+###::::::::::::::::::::::::::::::::::::::::::::::::: PRÉTRAITEMENT DES DONNÉES :::::::::::::::::::::::::::::::###
 
-  reco = books_for_userDF["Book-Title"].tolist()
 
-  print(', '.join([get_isbn(book_title) for book_title in reco]))
+# Fusion des datasets books et ratings sur la colonne ISBN
+books_data = books.merge(ratings, on="ISBN")
+df = books_data.copy()  # Création d'une copie pour travailler dessus
 
+# Nettoyage des données
+df.dropna(inplace=True)  # Suppression des lignes avec des valeurs NaN
+df.drop(index=df[df["Book-Rating"] == 0].index, inplace=True)  # Suppression des évaluations égales à 0
+df.reset_index(drop=True, inplace=True)  # Réinitialisation des index
+df.drop(columns=["Year-Of-Publication", "Image-URL-S", "Image-URL-M"], axis=1, inplace=True)  # Suppression des colonnes inutiles
+df["Book-Title"] = df["Book-Title"].apply(lambda x: re.sub("[\W_]+", " ", x).strip())  # Nettoyage des titres des livres
+
+
+
+###::::::::::::::::::::::::::::::::::::::::::::::: PRÉPARATION POUR LE CALCUL :::::::::::::::::::::::::::::::::###
+
+
+# Filtrage sur les utilisateurs ayant évalué plus de 200 livres
+new_df = df[df['User-ID'].map(df['User-ID'].value_counts()) > 200]
+
+# Création d'une table pivot des évaluations des utilisateurs
+users_pivot = new_df.pivot_table(index=["User-ID"], columns=["Book-Title"], values="Book-Rating")
+users_pivot.fillna(0, inplace=True)
+
+
+
+####:::::::::::::::::::::::::::::::::::::::::: RECOMMANDATIONS :::::::::::::::::::::::::::::::::::::###
+
+
+if __name__ == "__main__":
+    # récupération du user_id donnée en argument du scipt
+    user_id = np.int64(sys.argv[1])
+
+    # récupération des isbns des 5 livres préférés de l'utilisateur
+    favourite_books_isbn = get_favourite_books_isbn(user_id)
+    
+    # récupération de 5 utilisateurs similaires
+    similar_users = get_similar_users(new_df, user_id)
+
+    # recomandation de livres
+    recommanded_books = get_recommanded_books(new_df, similar_users, user_id)
+
+    # formatage de la valeur de retour 
+    print(', '.join(favourite_books_isbn + recommanded_books))
