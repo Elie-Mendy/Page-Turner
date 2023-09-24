@@ -134,13 +134,14 @@ WSGI_APPLICATION = "backend.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": 'pageturner',
-        "USER": 'postgres',
-        "PASSWORD": 'Zefy3173',
-        "HOST": 'page-turner-db.cgrk4cx2leph.us-east-1.rds.amazonaws.com',
+        "NAME": 'page-turner-db',
+        "USER": 'pgadmin',
+        "PASSWORD": 'pgadmin',
+        "HOST": 'localhost',
         "PORT": '5432',
     }
 }
+
 
 
 # Password validation
