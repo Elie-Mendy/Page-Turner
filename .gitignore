@@ -59,8 +59,8 @@ docs/_build/
 target/
 
 # datasets
-*Preprocessed_data.csv
-*Books.csv
-*Ratings.csv
-*Users.csv
+# *Preprocessed_data.csv
+# *Books.csv
+# *Ratings.csv
+# *Users.csv
 
