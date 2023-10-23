@@ -1,0 +1,33 @@
+# Exclure les fichiers et répertoires générés par l'IDE
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.pytest*
+
+# Exclure les fichiers de sauvegarde
+*.bak
+*.swp
+*~
+
+# Exclure les fichiers de gestion de versions
+*.git
+*.gitignore
+
+# Exclure les fichiers d'environnement virtuel
+venv/
+*.env
+
+# Exclure les fichiers de données de base de données
+*.sqlite3
+
+# Exclure les fichiers de journalisation et de débogage
+*logs/
+
+# Exclure les fichiers et répertoires spécifiques à votre projet
+*node_modules/
+*frontend/
+
+# Exclure les fichiers de configuration
+*Dockerfile
+*docker-compose.yml

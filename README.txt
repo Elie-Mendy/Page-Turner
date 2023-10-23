@@ -20,40 +20,68 @@ A l'avenir, plusieures fonctionalités seront implémentés
 
 [Lien vers la vidéo](https://www.loom.com/share/14d65c3a354f40b386325679b59a8bd1)
 
+## Installation et lancement du projet
 
-## Installation du projet
+### Image Docker
+
+docker pull emstud/page-turner:v1.0.0
+docker run -d --name <containerName> page-turner:v1.0.0
+
+### Repository git 
 ```sh
+# clone du repository en local
 git clone https://github.com/Elie-Mendy/Page-Turner.git
 TODO - add installation steps 
 ```
 
-## Lancement l'application
-
-### Backend
 ```sh
+# activaton de l'environnement virtuel
 source ./env/bin/activate
-cd backend
+
+# installation des dépendences
+pip install -r requirements.txt
+
+# sinon lancer l'installation des packets manuellement :
+pip install --upgrade pip
+pip install django
+pip install djangorestframework
+pip install python-dotenv
+pip install django-cors-headers
+pip install psycopg2-binary
+pip install djangorestframework-simplejwt
+pip install numpy
+pip install tensorflow
+pip install pandas
+pip install scikit-learn
+pip install nltk
+pip install matplotlib
+pip install ipython
+
+# lancement de l'application
+cd page-turner
 python3 manage.py runserver
 ```
 
-### Frontend
-```sh
-cd frontend 
-npm start
-```
-L'API backend sera accessible en local sur le port 8000 : `http://localhost:8000`
-L'application sera accessible en local sur le port 3000 : `http://localhost:3000`
+### Connexion a l'application
+L'Application sera accessible en local sur le port 8000 : *`http://localhost:8000`*
 
+**Administrateur par Defaut:** 
+identifiant : *admin@example.com*
+mot de passe : *test123*
 
 ## Documentation
+
 TODO - add docs to project
 
- 
 ___
 
 ## Technologies utilisées
 
 ### BackEnd:
+
+#### Conteneurisation
+ - [Docker](https://www.docker.com)
+
 #### API
  - [Python3](https://www.python.org)
  - [pip](https://pypi.org/project/pip/)
@@ -70,7 +98,6 @@ ___
  - [React](https://fr.legacy.reactjs.org)
  - [Bootstrap5](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
  - [Redux](https://redux.js.org)
-  
 ___
 
 ## Licence
@@ -78,6 +105,6 @@ ___
 Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
 
-###### Realised by 
+###### Réalisé par 
 [Florine-Mendy](https://github.com/florine-mendy) 
 [Elie-Mendy](https://github.com/Elie-Mendy) 
