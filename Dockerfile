@@ -2,8 +2,6 @@ FROM python:3.10
 
 WORKDIR /app
 
-COPY requirements.txt .
-
 # libgdal-dev est nécessaire pour installer GDAL 
 RUN apt-get update && apt-get install -y \
     gdal-bin \
