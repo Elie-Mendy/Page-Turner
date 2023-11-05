@@ -23,9 +23,10 @@ A l'avenir, plusieures fonctionalités seront implémentés
 ## Installation et lancement du projet
 
 ### Image Docker
-
+```bash
 docker pull emstud/page-turner:v1.0.0
 docker run -d --name <containerName> page-turner:v1.0.0
+```
 
 ### Repository git 
 ```sh
