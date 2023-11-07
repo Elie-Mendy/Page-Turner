@@ -71,8 +71,7 @@ def get_favourite_books_isbn(user_id):
     Returns:
     - List[str]: Les isbns des 4 livres préférés de l'utilisateur.
     """
-    df_favorite_books = new_df[new_df["User-ID"] == user_id].sort_values(["Book-Rating"], ascending=False).head(4)
-    
+    df_favorite_books = new_df[new_df["User-ID"] == user_id].sort_values(["Book-Rating"], ascending=False).head(4) 
     # conversion des isbn pour retourner une liste d'entiers
     return df_favorite_books["ISBN"].tolist()
 
@@ -89,15 +88,20 @@ def get_recommanded_books(new_df, user_ids, user_id):
     Returns:
     - list: Liste des isbn des livres recommandés.
     """
-    x = new_df[new_df["User-ID"] == user_id]
     recommended_books = []
     user_ids = list(user_ids)
+    # récupération des livres évalués par l'utilisateur
+    user_favorite_books = new_df[new_df["User-ID"] == user_id]
+    # récupération des livres évalués par les utilisateurs similaires
     for id in user_ids:
-        y = new_df[(new_df["User-ID"] == id)]
-        books = y.loc[~y["Book-Title"].isin(x["Book-Title"]), :]
+        # récupération des livres évalués par l'utilisateur
+        books = new_df[(new_df["User-ID"] == id)]
+        # suppression des doublons
+        books = books.loc[~books["Book-Title"].isin(user_favorite_books["Book-Title"]), :]
+        # tri par note décroissante et récupération des 10 premiers livres
         books = books.sort_values(["Book-Rating"], ascending=False)[0:10]
+        # ajout des livres à la liste des livres recommandés
         recommended_books.extend(books["Book-Title"].values)
-        
     return [get_isbn(book_title) for book_title in recommended_books[0:50]]
 
 
