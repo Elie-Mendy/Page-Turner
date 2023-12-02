@@ -18,7 +18,7 @@ A l'avenir, plusieures fonctionalités seront implémentés
 
 ## Video Présentation
 
-[Lien vers la vidéo](https://www.loom.com/share/14d65c3a354f40b386325679b59a8bd1)
+[Lien vers la vidéo](https://www.loom.com/share/47c686208f584b0da183639bb867d732?sid=f943df3d-9e22-4272-ab80-099e152ceef8)
 
 ## Installation et lancement du projet
 
