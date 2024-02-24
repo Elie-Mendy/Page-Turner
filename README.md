@@ -25,7 +25,7 @@ A l'avenir, plusieures fonctionalités seront implémentés
 ### Image Docker
 ```bash
 docker pull emstud/page-turner:v1.0.0
-docker run -d --name <containerName> -p 8000:8000 page-turner:v1.0.0
+docker run -d --name <containerName> -p 8000:8000 emstud/page-turner:v1.0.0
 ```
 
 ### Repository git 
