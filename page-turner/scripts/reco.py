@@ -25,6 +25,8 @@ warnings.filterwarnings("ignore")
 # Chargement du datasets
 df = pd.read_csv(os.path.join(sys.argv[2], "scripts/Preprocessed_data.csv"))
 rating_counts = pd.DataFrame(df["book_title"].value_counts())
+
+# rare books are excluded from the recommendation
 rare_books = rating_counts[rating_counts["count"] <= 10].index
 
 ###::::::::::::::::::::::::::::::::::::::::::::::::: FONCTIONS :::::::::::::::::::::::::::::::###
@@ -84,10 +86,15 @@ def content_based(bookTitle) -> None:
 
     # targetet colomns
     targets = ["book_title", "book_author", "publisher", "Category"]
+    
+    # create a new column with all the features
     common_books["all_features"] = [
         " ".join(common_books[targets].iloc[i,].values)
         for i in range(common_books[targets].shape[0])
     ]
+    
+    # get the index of the book
+    index = common_books[common_books["book_title"] == bookTitle]["index"].values[0]
 
     # vectorize the data
     vectorizer = CountVectorizer()
@@ -95,9 +102,6 @@ def content_based(bookTitle) -> None:
 
     # compute the similarity
     similarity = cosine_similarity(common_booksVector)
-
-    # get the index of the book
-    index = common_books[common_books["book_title"] == bookTitle]["index"].values[0]
 
     # get the similar books
     similar_books = list(enumerate(similarity[index]))

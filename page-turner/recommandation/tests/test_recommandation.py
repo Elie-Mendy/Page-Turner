@@ -8,20 +8,16 @@ from django.test import TestCase
 class TestRecommandation(TestCase):
 
     def test_recommandation_shoud_return_books(self):
-        
-        response = self.client.post(
-            reverse("recommandation", args=("Harry Potter",))
-        )
-        content = response.json()["stdout"].split(',')
+
+        response = self.client.post(reverse("recommandation", args=("Harry Potter",)))
+        content = response.json()["stdout"].split(",")
         self.assertEqual(response.status_code, 200)
         self.assertTrue(len(content) > 0)
-        
+
     def test_recommandation_shoud_not_return_any_books(self):
-        
-        response = self.client.post(
-            reverse("recommandation", args=("WrongValue1234",))
-        )
+
+        response = self.client.post(reverse("recommandation", args=("WrongValue1234",)))
         content = response.json()["stdout"]
-        
+
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('Cant find book in dataset, please check spelling', content)
+        self.assertEqual("❌ COULD NOT FIND ❌", content)
