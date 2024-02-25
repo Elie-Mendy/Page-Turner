@@ -39,7 +39,7 @@ class TestRecommandation2(TestCase):
 
 """
 EXHAUSTIVE LIST OF USERS WITH BOOKS
-
+z
 11676
 197659
 46398

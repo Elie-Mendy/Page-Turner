@@ -86,13 +86,13 @@ def content_based(bookTitle) -> None:
 
     # targetet colomns
     targets = ["book_title", "book_author", "publisher", "Category"]
-    
+
     # create a new column with all the features
     common_books["all_features"] = [
         " ".join(common_books[targets].iloc[i,].values)
         for i in range(common_books[targets].shape[0])
     ]
-    
+
     # get the index of the book
     index = common_books[common_books["book_title"] == bookTitle]["index"].values[0]
 
