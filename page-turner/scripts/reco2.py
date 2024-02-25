@@ -37,6 +37,21 @@ def get_isbn(book_title):
     return df.loc[df['Book-Title'] == book_title].iloc[0][0]
 
 
+def get_favourite_books_isbn(user_id):
+    """
+    Renvoie les isbns des 4 livres préférés d'un utilisateur.
+    
+    Args:
+    - user_id (int): L'ID de l'utilisateur.
+    
+    Returns:
+    - List[str]: Les isbns des 4 livres préférés de l'utilisateur.
+    """
+    df_favorite_books = new_df[new_df["User-ID"] == user_id].sort_values(["Book-Rating"], ascending=False).head(4) 
+    # conversion des isbn pour retourner une liste d'entiers
+    return df_favorite_books["ISBN"].tolist()
+
+
 def get_similar_users(new_df, user_id):
     """
     Identifie les utilisateurs ayant des goûts similaires à un utilisateur donné en utilisant la similarité cosinus.
@@ -59,21 +74,6 @@ def get_similar_users(new_df, user_id):
             data = df[df["User-ID"] == users_pivot.index[id[0]]]
             user_ids.extend(list(data.drop_duplicates("User-ID")["User-ID"].values))
     return user_ids
-
-
-def get_favourite_books_isbn(user_id):
-    """
-    Renvoie les isbns des 4 livres préférés d'un utilisateur.
-    
-    Args:
-    - user_id (int): L'ID de l'utilisateur.
-    
-    Returns:
-    - List[str]: Les isbns des 4 livres préférés de l'utilisateur.
-    """
-    df_favorite_books = new_df[new_df["User-ID"] == user_id].sort_values(["Book-Rating"], ascending=False).head(4) 
-    # conversion des isbn pour retourner une liste d'entiers
-    return df_favorite_books["ISBN"].tolist()
 
 
 def get_recommanded_books(new_df, user_ids, user_id):
@@ -106,7 +106,7 @@ def get_recommanded_books(new_df, user_ids, user_id):
 
 
 
-###::::::::::::::::::::::::::::::::::::::::::::::::: PRÉTRAITEMENT DES DONNÉES :::::::::::::::::::::::::::::::###
+###::::::::::::::::::::::::::::::::::::::::::::::PRÉTRAITEMENT DES DONNÉES :::::::::::::::::::::::::::::::::###
 
 
 # Fusion des datasets books et ratings sur la colonne ISBN
@@ -122,7 +122,7 @@ df["Book-Title"] = df["Book-Title"].apply(lambda x: re.sub("[\W_]+", " ", x).str
 
 
 
-###::::::::::::::::::::::::::::::::::::::::::::::: PRÉPARATION POUR LE CALCUL :::::::::::::::::::::::::::::::::###
+###::::::::::::::::::::::::::::::::::::::::::: PRÉPARATION POUR LE CALCUL :::::::::::::::::::::::::::::::::::###
 
 
 # Filtrage sur les utilisateurs ayant évalué plus de 200 livres
@@ -134,14 +134,14 @@ users_pivot.fillna(0, inplace=True)
 
 
 
-####:::::::::::::::::::::::::::::::::::::::::: RECOMMANDATIONS :::::::::::::::::::::::::::::::::::::###
+####:::::::::::::::::::::::::::::::::::::::::: RECOMMANDATIONS ::::::::::::::::::::::::::::::::::::::::::::::::###
 
 
 if __name__ == "__main__":
-    # récupération du user_id donnée en argument du scipt
+    # récupération du user_id donnée en argument du script
     user_id = np.int64(sys.argv[1])
 
-    # récupération des isbns des 5 livres préférés de l'utilisateur
+    # récupération des isbns des 4 livres préférés de l'utilisateur
     favourite_books_isbn = get_favourite_books_isbn(user_id)
     
     # récupération de 5 utilisateurs similaires
