@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
     pip install psycopg2-binary &&\
     pip install djangorestframework-simplejwt &&\
     pip install numpy &&\
-    pip install tensorflow &&\
+    pip install tensorflow==2.13.0 &&\
     pip install pandas &&\
     pip install scikit-learn &&\
     pip install nltk &&\

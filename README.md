@@ -60,7 +60,7 @@ pip install django-cors-headers
 pip install psycopg2-binary
 pip install djangorestframework-simplejwt
 pip install numpy
-pip install tensorflow
+pip install tensorflow==2.13.0
 pip install pandas
 pip install scikit-learn
 pip install nltk
