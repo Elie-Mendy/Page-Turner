@@ -41,6 +41,10 @@ TODO - add installation steps
 ```
 
 ```sh
+
+# création de l'environnement virtuel 
+python3 -m venv .env
+
 # activaton de l'environnement virtuel
 source ./env/bin/activate
 
