@@ -41,11 +41,14 @@ TODO - add installation steps
 ```
 
 ```sh
+# build de l'application frontend 
+cd ./page-turner/frontend
+npm install 
+npm run build
+cd ../..
 
-# création de l'environnement virtuel 
+# création et activation de l'environnement virtuel 
 python3 -m venv .env
-
-# activaton de l'environnement virtuel
 source ./env/bin/activate
 
 # installation des dépendences
